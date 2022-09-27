@@ -3,12 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{1FB936B5-506E-48DA-8E3B-9B12B53994E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{1FB936B5-506E-48DA-8E3B-9B12B53994E9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5B9C04E-6EB7-4C04-9B96-FFBC29B73DDD}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceConsoleApp", "DeviceConsoleApp\DeviceConsoleApp.csproj", "{FC1C14E8-7AC4-4B8C-9381-E2FFF61B9C0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedWPF", "SharedWPF\SharedWPF.csproj", "{CC770C0D-B965-4197-940A-89B7156E85C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceIntelliFAN", "DeviceIntelliFAN\DeviceIntelliFAN.csproj", "{FD8DF0DB-96E0-4A24-98D6-BCE602E37466}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +26,18 @@ Global
 		{1FB936B5-506E-48DA-8E3B-9B12B53994E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FB936B5-506E-48DA-8E3B-9B12B53994E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FB936B5-506E-48DA-8E3B-9B12B53994E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC1C14E8-7AC4-4B8C-9381-E2FFF61B9C0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC1C14E8-7AC4-4B8C-9381-E2FFF61B9C0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC1C14E8-7AC4-4B8C-9381-E2FFF61B9C0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC1C14E8-7AC4-4B8C-9381-E2FFF61B9C0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC770C0D-B965-4197-940A-89B7156E85C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC770C0D-B965-4197-940A-89B7156E85C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC770C0D-B965-4197-940A-89B7156E85C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC770C0D-B965-4197-940A-89B7156E85C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD8DF0DB-96E0-4A24-98D6-BCE602E37466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD8DF0DB-96E0-4A24-98D6-BCE602E37466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD8DF0DB-96E0-4A24-98D6-BCE602E37466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD8DF0DB-96E0-4A24-98D6-BCE602E37466}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

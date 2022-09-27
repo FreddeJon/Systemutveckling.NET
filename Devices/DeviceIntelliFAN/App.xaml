@@ -1,0 +1,13 @@
+﻿<Application x:Class="DeviceIntelliFAN.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:DeviceIntelliFAN">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SharedWPF;component/Resources/FontsDictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/SharedWPF;component/Resources/ButtonsDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

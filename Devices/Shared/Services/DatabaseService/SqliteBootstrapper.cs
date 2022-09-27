@@ -2,17 +2,17 @@
 using Microsoft.Data.Sqlite;
 using Shared.Settings;
 
-namespace Shared.Services.SqliteService;
+namespace Shared.Services.DatabaseService;
 
 public static class SqliteBootstrapper
 {
-    public static async Task Setup(DatabaseSettings databaseSettings, DeviceSettingsBase deviceSettings)
+    public static async Task Setup(DatabaseSettings databaseSettings, DeviceSettings deviceSettings)
     {
+        await using SqliteConnection conn = new(databaseSettings.ConnectionString);
         try
         {
-            await using SqliteConnection conn = new(databaseSettings.ConnectionString);
             string? table = (await conn.QueryAsync<string>(
-                    $"SELECT name FROM sqlite_master WHERE type = 'tableName' AND name = '{databaseSettings.DatabaseTable}'"))
+                    $"SELECT name FROM sqlite_schema WHERE type = 'table' AND name = '{databaseSettings.DatabaseTable}'"))
                 .FirstOrDefault();
             if (!string.IsNullOrEmpty(table) && table == databaseSettings.DatabaseTable)
             {
@@ -21,19 +21,20 @@ public static class SqliteBootstrapper
 
             await conn.ExecuteAsync(CreateTableSqlQueryForEntity(deviceSettings, databaseSettings.DatabaseTable));
 
-            await conn.ExecuteAsync(CreateEntitySqlQuery(deviceSettings, databaseSettings.DatabaseTable));
+            await conn.ExecuteAsync(CreateEntitySqlQuery(deviceSettings, databaseSettings.DatabaseTable), deviceSettings);
 
             databaseSettings.IsInitialized = true;
         }
         catch (Exception e)
         {
-            throw;
+            await conn.ExecuteAsync($"DROP TABLE[IF EXISTS] {databaseSettings.DatabaseTable};");
+            throw new Exception("could not bootstrap db");
         }
 
     }
 
 
-    private static string CreateTableSqlQueryForEntity(DeviceSettingsBase deviceSettings, string tableName)
+    private static string CreateTableSqlQueryForEntity(DeviceSettings deviceSettings, string tableName)
     {
         if (string.IsNullOrEmpty(tableName))
         {
@@ -46,17 +47,22 @@ public static class SqliteBootstrapper
 
         foreach (string property in properties)
         {
-            if (property == nameof(DeviceSettingsBase.DeviceId))
+            if (property == nameof(DeviceSettings.DeviceId))
             {
                 sqlQuery += $" {property} VARCHAR(200) NOT NULL";
                 sqlQuery +=
-                    properties.IndexOf(property) != properties.IndexOf(properties.Last()) ? "," : ");";
+                    properties.IndexOf(property) != properties.IndexOf(properties.Last()) ? "," : ")";
+            }else if (property == nameof(DeviceSettings.DeviceId))
+            {
+                sqlQuery += $" {property} INT NULL";
+                sqlQuery +=
+                    properties.IndexOf(property) != properties.IndexOf(properties.Last()) ? "," : ")";
             }
             else
             {
                 sqlQuery += $" {property} VARCHAR(200) NULL";
                 sqlQuery +=
-                    properties.IndexOf(property) != properties.IndexOf(properties.Last()) ? "," : ");";
+                    properties.IndexOf(property) != properties.IndexOf(properties.Last()) ? "," : ")";
             }
         }
 
@@ -64,7 +70,7 @@ public static class SqliteBootstrapper
         return sqlQuery;
     }
 
-    private static string CreateEntitySqlQuery(DeviceSettingsBase settings, string tableName)
+    private static string CreateEntitySqlQuery(DeviceSettings settings, string tableName)
     {
         if (string.IsNullOrEmpty(tableName))
         {
@@ -95,17 +101,5 @@ public static class SqliteBootstrapper
         string sqlQuery = insertInto + values;
 
         return sqlQuery;
-    }
-}
-
-public class BootstrapperArgs : EventArgs
-{
-    public DeviceSettingsBase DeviceSettings { get; }
-    public DatabaseSettings Settings { get; }
-
-    public BootstrapperArgs(DeviceSettingsBase deviceSettings, DatabaseSettings settings)
-    {
-        DeviceSettings = deviceSettings;
-        Settings = settings;
     }
 }
