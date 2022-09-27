@@ -3,9 +3,6 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
-using Shared.Services.DatabaseService;
-using Shared.Services.DatabaseService.Interfaces;
-using Shared.Services.DeviceService;
 using Shared.Services.DeviceService.Interfaces;
 using Shared.Settings;
 

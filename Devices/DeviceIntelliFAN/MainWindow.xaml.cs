@@ -1,54 +1,162 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DeviceIntelliFAN.Core;
+using System.Windows.Media.Animation;
 using Shared.Services.DeviceService.Interfaces;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace DeviceIntelliFAN;
+
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow : Window, INotifyPropertyChanged
 {
     private readonly IDeviceService _deviceService;
+    private bool _isConnected;
+    private string _connectionStateMessage = "Connecting";
+    private bool _isAllowedToSend;
+    private string _toggleSendingStateButton = "Start";
+
 
     public MainWindow(IDeviceService deviceService)
     {
         _deviceService = deviceService;
+
+
         InitializeComponent();
+        this.DataContext = this;
 
+        Initialize();
 
-        Loaded += MainWindow_Loaded;
-        _deviceService.ConnectionStateChangedEvent += ConnectionStateChangedEvent;
+        ToggleSendingStateCommand = new DelegateCommand(ToggleSendingState);
+
         Closed += MainWindow_Closed;
     }
 
-    private void ConnectionStateChangedEvent(object sender, Shared.Services.DeviceService.Events.ConnectionStateArgs e)
+
+    public DelegateCommand ToggleSendingStateCommand { get; set; }
+
+    public bool IsAllowedToSend
     {
-        throw new NotImplementedException();
+        get => _isAllowedToSend;
+        set
+        {
+            if (value == _isAllowedToSend) return;
+            _isAllowedToSend = value;
+            OnPropertyChanged();
+        }
     }
 
-    private void MainWindow_Closed(object? sender, EventArgs e)
+    public string ConnectionStateMessage
     {
-        Loaded -= MainWindow_Loaded;
+        get => _connectionStateMessage;
+        set
+        {
+            if (value == _connectionStateMessage) return;
+            _connectionStateMessage = value;
+            OnPropertyChanged();
+        }
+    }
 
+    public bool IsConnected
+    {
+        get => _isConnected;
+        set
+        {
+            if (value == _isConnected) return;
+            _isConnected = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string ToggleSendingStateButton
+    {
+        get => _toggleSendingStateButton;
+        set
+        {
+            if (value == _toggleSendingStateButton) return;
+            _toggleSendingStateButton = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private void Initialize()
+    {
+        _deviceService.SendingMessagesStateChangedEvent += DeviceService_SendingMessagesStateChangedEvent;
+        _deviceService.ConnectionStateChangedEvent += DeviceService_ConnectionStateChangedEvent;
+
+
+        _deviceService.ConnectDeviceAsync().ConfigureAwait(false);
+    }
+
+    private void ToggleSendingState(object? obj)
+    {
+        _deviceService.ChangeSendingAllowed(!IsAllowedToSend);
+
+        Task.Run(async () =>
+        {
+            while (IsAllowedToSend)
+            {
+                await _deviceService.SendMessageAsync(message: "Hey");
+            }
+        }).ConfigureAwait(false);
+    }
+
+
+    private void DeviceService_ConnectionStateChangedEvent(object sender,
+        Shared.Services.DeviceService.Events.ConnectionStateArgs e)
+    {
+        IsConnected = e.IsConnected;
+        ConnectionStateMessage = e.Message;
+    }
+
+
+    private void DeviceService_SendingMessagesStateChangedEvent(object sender,
+        Shared.Services.DeviceService.Events.SendingMessagesArgs e)
+    {
+        IsAllowedToSend = e.IsAllowedToSend;
+
+        Dispatcher.Invoke(() =>
+        {
+            ToggleSendingStateButton = IsAllowedToSend ? "Stop" : "Start";
+
+            var sb = (BeginStoryboard) TryFindResource("SbRotate");
+            if (IsAllowedToSend)
+            {
+                sb.Storyboard.Begin();
+            }
+            else
+            {
+                sb.Storyboard.Stop();
+            }
+        });
+    }
+
+
+    private void MainWindow_Closed(object? sender, System.EventArgs e)
+    {
+        _deviceService.SendingMessagesStateChangedEvent -= DeviceService_SendingMessagesStateChangedEvent;
+        _deviceService.ConnectionStateChangedEvent -= DeviceService_ConnectionStateChangedEvent;
 
         Closed -= MainWindow_Closed;
     }
 
-    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
-      await _deviceService.ConnectDeviceAsync();
-     await Task.Delay(10000);
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
     }
 }

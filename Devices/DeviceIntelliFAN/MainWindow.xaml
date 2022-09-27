@@ -5,8 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeviceIntelliFAN"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        Title="IntelliFAN" Height="340" Width="250">
+    <Window.Resources>
+        <BeginStoryboard x:Key="SbRotate">
+            <Storyboard RepeatBehavior="Forever" >
+                <DoubleAnimation Storyboard.TargetName="FanBladesRotate" 
+                                 Storyboard.TargetProperty="Angle" From="0" To="360" />
+            </Storyboard>
+        </BeginStoryboard>
+    </Window.Resources>
 
+
+    <Grid Margin="20">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid>
+                <TextBlock Foreground="SlateGray" FontFamily="{StaticResource Fontawesome-Regular}" Text="&#xe004;" FontSize="110" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Ellipse Height="70" Width="70" Margin="1 -10 0 0" Fill="White" />
+                <TextBlock RenderTransformOrigin="0.5 0.5" Foreground="SlateGray" FontFamily="{StaticResource Fontawesome-Solid}" Text="&#xf863;" FontSize="65" Margin="0 -13 0 0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock.RenderTransform>
+                        <RotateTransform x:Name="FanBladesRotate" Angle="0" />
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+            </Grid>
+
+            <TextBlock Text="IntelliFAN" FontSize="22" FontWeight="SemiBold" Foreground="SlateGray" Margin="0 10 0 0"
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
+            </TextBlock>
+            <TextBlock Text="{Binding ConnectionStateMessage}" FontSize="11" FontWeight="SemiBold" Foreground="SlateGray"
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
+            </TextBlock>
+            <Button Style="{StaticResource Btn}" Content="{Binding ToggleSendingStateButton}" Command="{Binding ToggleSendingStateCommand}" IsEnabled="{Binding IsConnected}"></Button>
+        </StackPanel>
     </Grid>
 </Window>

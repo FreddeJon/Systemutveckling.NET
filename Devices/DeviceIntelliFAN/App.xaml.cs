@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
 using Shared.Settings;
 
 namespace DeviceIntelliFAN;
+
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
@@ -26,7 +20,6 @@ public partial class App : Application
     public static IServiceCollection ConfigureServices(IServiceCollection services)
     {
         services.AddTransient<MainWindow>();
-
         services.AddDatabaseSettings(new DatabaseSettings());
         services.AddDeviceSetting(new DeviceSettings()
         {
