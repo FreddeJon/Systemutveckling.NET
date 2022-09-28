@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using DeviceIntelliFAN.Core;
 using System.Windows.Media.Animation;
-using Shared.Services.DeviceService.Interfaces;
+using Application.Services.DeviceService.Events;
+using Application.Services.DeviceService.Interfaces;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace DeviceIntelliFAN;
@@ -108,7 +110,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
 
     private void DeviceService_ConnectionStateChangedEvent(object sender,
-        Shared.Services.DeviceService.Events.ConnectionStateArgs e)
+        ConnectionStateArgs e)
     {
         IsConnected = e.IsConnected;
         ConnectionStateMessage = e.Message;
@@ -116,7 +118,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
 
     private void DeviceService_SendingMessagesStateChangedEvent(object sender,
-        Shared.Services.DeviceService.Events.SendingMessagesArgs e)
+        SendingMessagesArgs e)
     {
         IsAllowedToSend = e.IsAllowedToSend;
 

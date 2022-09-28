@@ -1,10 +1,11 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
+using Application;
+using Application.Services.DeviceService.Events;
+using Application.Services.DeviceService.Interfaces;
+using Application.Settings;
 using Microsoft.Extensions.DependencyInjection;
-using Shared;
-using Shared.Services.DeviceService.Interfaces;
-using Shared.Settings;
 
 var services = new ServiceCollection();
 
@@ -58,7 +59,7 @@ while (true)
 }
 
 
-void DeviceSendingMessagesStateChangedEvent(object sender, Shared.Services.DeviceService.Events.SendingMessagesArgs e)
+void DeviceSendingMessagesStateChangedEvent(object sender, SendingMessagesArgs e)
 {
     Console.WriteLine(e.IsAllowedToSend + " FROM EVENT");
 }

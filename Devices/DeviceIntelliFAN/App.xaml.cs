@@ -1,14 +1,14 @@
 ﻿using System.Windows;
+using Application;
+using Application.Settings;
 using Microsoft.Extensions.DependencyInjection;
-using Shared;
-using Shared.Settings;
 
 namespace DeviceIntelliFAN;
 
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App
 {
     private readonly ServiceProvider _serviceProvider;
 
