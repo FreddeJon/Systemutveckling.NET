@@ -55,30 +55,19 @@
                     </Grid>
                 </StackPanel>
 
-                <Grid Grid.Column="2" Margin="40 20 0 120" x:Name="DeviceGrid">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <ItemsControl Grid.Row="1" x:Name="DeviceTileListView" ItemsSource="{Binding DeviceItems}">
+                <Grid Grid.Column="2" Margin="40 20 0 120" x:Name="DeviceGrid" ShowGridLines="True">
+                    <ItemsControl x:Name="DeviceTileListView" ItemsSource="{Binding Devices}">
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type models:DeviceItem}">
                                 <components:TileComponent
-                                    IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsChecked="{Binding ActionState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     DeviceName="{Binding DeviceName}"
                                     DeviceType="{Binding DeviceType}"
-                                    IconActive="{Binding IconActive}"
-                                    IconInActive="{Binding IconInActive}"
-                                    StateActive="{Binding StateActive}"
-                                    StateInActive="{Binding StateInActive}" />
+                                    IconActive="{Binding IconActiveState}"
+                                    IconInActive="{Binding IconInActiveState}"
+                                    StateActive="{Binding TextActiveState}"
+                                    StateInActive="{Binding TextInActiveState}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
 

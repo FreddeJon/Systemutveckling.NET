@@ -12,11 +12,10 @@ var services = new ServiceCollection();
 services.AddDatabaseSettings(new DatabaseSettings(databaseName: "TEST"));
 services.AddDeviceSetting(new DeviceSettings()
 {
-    DeviceId = "he",
-    DeviceLocation = "Test",
     DeviceName = "ConsoleApp",
-    DeviceType = "Console",
-    DeviceOwner = "Fredriks"
+    DeviceType = "Light",
+    Location = "kitchen",
+    Owner = "Fredrik"
 
 });
 

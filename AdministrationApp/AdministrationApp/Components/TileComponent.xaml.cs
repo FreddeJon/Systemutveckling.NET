@@ -15,7 +15,8 @@ public partial class TileComponent : UserControl
         DependencyProperty.Register(nameof(DeviceType), typeof(string), typeof(TileComponent));
 
     public static readonly DependencyProperty IsCheckedProperty =
-        DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(TileComponent), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(TileComponent),
+            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
     public static readonly DependencyProperty IconActiveProperty =
@@ -47,7 +48,7 @@ public partial class TileComponent : UserControl
         set => SetValue(DeviceTypeProperty, value);
     }
 
-    public bool IsChecked
+    public bool? IsChecked
     {
         get => (bool) GetValue(IsCheckedProperty);
         set => SetValue(IsCheckedProperty, value);
@@ -76,4 +77,10 @@ public partial class TileComponent : UserControl
         get => (string) GetValue(StateInActiveProperty);
         set => SetValue(StateInActiveProperty, value);
     }
+
+    private void TileToggleButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        IsChecked = TileToggleButton.IsChecked;
+    }
+
 }

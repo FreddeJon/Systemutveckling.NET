@@ -24,9 +24,9 @@ public partial class App
         services.AddDeviceSetting(new DeviceSettings()
         {
             DeviceName = "IntelliFAN",
-            DeviceLocation = "Kitchen",
+            Location = "Kitchen",
             DeviceType = "Fan",
-            DeviceOwner = "Fredrik"
+            Owner = "Fredrik"
         });
 
         services.AddHttpClients(new ApiSettings(

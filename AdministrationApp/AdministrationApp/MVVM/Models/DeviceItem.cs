@@ -1,29 +1,29 @@
 ﻿using System;
-using AdministrationApp.MVVM.ViewModels;
+using AdministrationApp.Events;
 
 namespace AdministrationApp.MVVM.Models;
 
 public class DeviceItem
 {
-    private bool _isChecked;
+    private bool _actionState;
     public string DeviceId { get; set; } = "";
     public string DeviceName { get; set; } = "";
     public string DeviceType { get; set; } = "Unknown";
 
-    public bool IsChecked
+    public bool ActionState
     {
-        get => _isChecked;
+        get => _actionState;
         set
         {
-            if (Equals(_isChecked, value)) return;
-            _isChecked = value;
-            HandleToggleState?.Invoke(this,new ToggleSendingStateArgs(DeviceId, _isChecked));
+            if (Equals(_actionState, value)) return;
+            _actionState = value;
+            ToggleActionStateEvent?.Invoke(this,new ToggleActionStateArgs(_actionState, DeviceId));
         }
     }
 
-    public string IconActive { get; set; } = "";
-    public string IconInActive { get; set; } = "";
-    public string StateActive { get; set; } = "";
-    public string StateInActive { get; set; } = "";
-    public EventHandler<ToggleSendingStateArgs>? HandleToggleState { get; set; }
+    public string IconActiveState { get; set; } = "";
+    public string IconInActiveState { get; set; } = "";
+    public string TextActiveState { get; set; } = "";
+    public string TextInActiveState { get; set; } = "";
+    public EventHandler<ToggleActionStateArgs> ToggleActionStateEvent { get; set; }
 }

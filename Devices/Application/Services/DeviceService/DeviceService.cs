@@ -200,7 +200,7 @@ public class DeviceService : IDeviceService
 
         await _deviceClient.UpdateReportedPropertiesAsync(new TwinCollection
         {
-            ["running"] = e.IsAllowedToSend.ToString().ToLower()
+            ["actionState"] = e.IsAllowedToSend.ToString().ToLower()
         });
     }
 
@@ -334,10 +334,10 @@ public class DeviceService : IDeviceService
         var reported = new TwinCollection
         {
             ["deviceName"] = deviceSettings.DeviceName,
-            ["deviceLocation"] = deviceSettings.DeviceLocation,
-            ["deviceOwner"] = deviceSettings.DeviceOwner,
             ["deviceType"] = deviceSettings.DeviceType,
-            ["running"] = "false"
+            ["location"] = deviceSettings.Location.ToLower(),
+            ["owner"] = deviceSettings.Owner,
+            ["actionState"] = "false"
         };
         await _deviceClient!.UpdateReportedPropertiesAsync(reported);
     }
