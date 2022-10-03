@@ -3,14 +3,12 @@
     public class ApiSettings
     {
         public string ApiBaseUrl { get; }
-        public string GetConnectionStateUrl { get; }
-        public string GetConnectionStringUrl { get; }
+        public string ConnectDeviceAPIUrl { get; }
 
-        public ApiSettings(string apiBaseUrl, string getConnectionStateUrl, string getConnectionStringUrl)
+        public ApiSettings(string apiBaseUrl, string connectDeviceApiUrl)
         {
             ApiBaseUrl = apiBaseUrl;
-            GetConnectionStateUrl = getConnectionStateUrl;
-            GetConnectionStringUrl = getConnectionStringUrl;
+            ConnectDeviceAPIUrl = connectDeviceApiUrl;
         }
     }
 }

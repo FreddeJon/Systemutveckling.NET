@@ -1,6 +1,6 @@
 ﻿namespace Application.Services.DeviceService.Events;
 
-public delegate void SendingMessagesStateChangedEventHandler(object sender, SendingMessagesArgs e);
+public delegate void ActionStateChangesEventHandler(object sender, SendingMessagesArgs e);
 
 public class SendingMessagesArgs : EventArgs
 {

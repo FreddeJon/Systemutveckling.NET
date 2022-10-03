@@ -35,7 +35,7 @@
             <TextBlock Text="{Binding ConnectionStateMessage}" FontSize="11" FontWeight="SemiBold" Foreground="SlateGray"
                        HorizontalAlignment="Center" VerticalAlignment="Center">
             </TextBlock>
-            <Button Style="{StaticResource Btn}" Content="{Binding ToggleSendingStateButton}" Command="{Binding ToggleSendingStateCommand}" IsEnabled="{Binding IsConnected}"></Button>
+            <Button x:Name="ButtonToggleSendingState" Click="ButtonToggleSendingState_OnClick" Style="{StaticResource Btn}" Content="{Binding ToggleSendingStateButton}" IsEnabled="{Binding IsConnected}"></Button>
         </StackPanel>
     </Grid>
 </Window>

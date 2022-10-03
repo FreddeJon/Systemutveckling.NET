@@ -4,11 +4,11 @@ namespace Application.Services.DeviceService.Interfaces;
 public interface IDeviceService
 {
     public Task ConnectDeviceAsync();
-    public Task SendMessageAsync(string message);
+    public Task SendMessageAsync(object data);
     public void ChangeSendingAllowed(bool isAllowed);
 
     public bool IsAllowedToSend { get; }
 
-    public event ConnectionStateChangedEventHandler ConnectionStateChangedEvent;
-    public event SendingMessagesStateChangedEventHandler SendingMessagesStateChangedEvent;
+    public event ConnectionStateChangesEventHandler ConnectionStateChangedEvent;
+    public event ActionStateChangesEventHandler ActionStateChangedEvent;
 }

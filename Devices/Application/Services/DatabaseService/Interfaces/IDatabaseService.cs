@@ -3,6 +3,8 @@
 namespace Application.Services.DatabaseService.Interfaces;
 public interface IDatabaseService
 {
-    Task<DeviceSettings> GetDeviceSettings(); 
-    Task<bool> UpdateDeviceSettings(DeviceSettings settings);
+    Task<DeviceSettings> GetDeviceSettingsAsync(); 
+    Task<bool> UpdateDeviceSettingsAsync(DeviceSettings settings);
+
+    Task<bool> ResetConnectionStringAsync(DeviceSettings? settings);
 }

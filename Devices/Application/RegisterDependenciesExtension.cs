@@ -23,8 +23,7 @@ public static class RegisterDependencyExtension
 
     public static IServiceCollection AddHttpClients(this IServiceCollection services, ApiSettings settings)
     {
-        services.AddHttpClient<IDeviceService>("GetConnectionString", x => x.BaseAddress = new Uri(settings.ApiBaseUrl + settings.GetConnectionStringUrl));
-        services.AddHttpClient<IDeviceService>("GetConnectionState", x => x.BaseAddress = new Uri(settings.ApiBaseUrl + settings.GetConnectionStateUrl));
+        services.AddHttpClient<IDeviceService>("ConnectDevice", x => x.BaseAddress = new Uri(settings.ApiBaseUrl + settings.ConnectDeviceAPIUrl));
         return services;
     }
 

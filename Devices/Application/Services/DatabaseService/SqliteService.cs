@@ -21,7 +21,7 @@ public class SqliteService : IDatabaseService
     }
 
 
-    public async Task<DeviceSettings> GetDeviceSettings()
+    public async Task<DeviceSettings> GetDeviceSettingsAsync()
     {
         try
         {
@@ -35,7 +35,7 @@ public class SqliteService : IDatabaseService
         }
     }
 
-    public async Task<bool> UpdateDeviceSettings(DeviceSettings settings)
+    public async Task<bool> UpdateDeviceSettingsAsync(DeviceSettings settings)
     {
         try
         {
@@ -43,6 +43,24 @@ public class SqliteService : IDatabaseService
 
             var sqlQuery = CreateUpdateEntitySqlQuery(settings, _databaseSettings.DatabaseTable);
             await conn.ExecuteAsync(sqlQuery, settings);
+
+            return true;
+        }
+        catch
+        {
+            throw new DeviceSettingsException("could not update device settings");
+        }
+    }
+
+    public async Task<bool> ResetConnectionStringAsync(DeviceSettings? settings)
+    {
+        try
+        {
+            await using SqliteConnection conn = new(_databaseSettings.ConnectionString);
+
+            var sqlQuery =  $"UPDATE {_databaseSettings.DatabaseTable} SET ConnectionString='' WHERE DeviceId=@DeviceId";
+
+            await conn.ExecuteAsync(sqlQuery, new {DeviceId = settings.DeviceId});
 
             return true;
         }

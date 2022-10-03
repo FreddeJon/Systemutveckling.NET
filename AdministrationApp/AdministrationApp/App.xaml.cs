@@ -23,7 +23,6 @@ public partial class App : Application
         services.AddTransient<MainWindow>();
         services.AddScoped<MainViewModel>();
         services.AddScoped<KitchenViewModel>();
-
         return services.BuildServiceProvider();
     }
 

@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using DeviceIntelliFAN.Core;
 using System.Windows.Media.Animation;
 using Application.Services.DeviceService.Events;
 using Application.Services.DeviceService.Interfaces;
@@ -15,7 +14,7 @@ namespace DeviceIntelliFAN;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window, INotifyPropertyChanged
+public sealed partial class MainWindow : INotifyPropertyChanged
 {
     private readonly IDeviceService _deviceService;
     private bool _isConnected;
@@ -28,19 +27,15 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         _deviceService = deviceService;
 
-
         InitializeComponent();
         this.DataContext = this;
 
         Initialize();
 
-        ToggleSendingStateCommand = new DelegateCommand(ToggleSendingState);
 
         Closed += MainWindow_Closed;
     }
 
-
-    public DelegateCommand ToggleSendingStateCommand { get; set; }
 
     public bool IsAllowedToSend
     {
@@ -88,14 +83,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void Initialize()
     {
-        _deviceService.SendingMessagesStateChangedEvent += DeviceService_SendingMessagesStateChangedEvent;
+        _deviceService.ActionStateChangedEvent += DeviceService_SendingMessagesStateChangedEvent;
         _deviceService.ConnectionStateChangedEvent += DeviceService_ConnectionStateChangedEvent;
-
 
         _deviceService.ConnectDeviceAsync().ConfigureAwait(false);
     }
 
-    private void ToggleSendingState(object? obj)
+    private void ButtonToggleSendingState_OnClick(object sender, RoutedEventArgs e)
     {
         _deviceService.ChangeSendingAllowed(!IsAllowedToSend);
 
@@ -103,11 +97,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             while (IsAllowedToSend)
             {
-                await _deviceService.SendMessageAsync(message: "Hey");
+                await _deviceService.SendMessageAsync(data: new { message = "hej" });
             }
         }).ConfigureAwait(false);
     }
-
 
     private void DeviceService_ConnectionStateChangedEvent(object sender,
         ConnectionStateArgs e)
@@ -115,7 +108,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         IsConnected = e.IsConnected;
         ConnectionStateMessage = e.Message;
     }
-
 
     private void DeviceService_SendingMessagesStateChangedEvent(object sender,
         SendingMessagesArgs e)
@@ -141,7 +133,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void MainWindow_Closed(object? sender, System.EventArgs e)
     {
-        _deviceService.SendingMessagesStateChangedEvent -= DeviceService_SendingMessagesStateChangedEvent;
+        _deviceService.ActionStateChangedEvent -= DeviceService_SendingMessagesStateChangedEvent;
         _deviceService.ConnectionStateChangedEvent -= DeviceService_ConnectionStateChangedEvent;
 
         Closed -= MainWindow_Closed;
@@ -149,12 +141,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    private bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
         if (EqualityComparer<T>.Default.Equals(field, value)) return false;
         field = value;

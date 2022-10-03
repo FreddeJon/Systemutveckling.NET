@@ -2,6 +2,7 @@
 
 
 using Application;
+using Application.Execeptions;
 using Application.Services.DeviceService.Events;
 using Application.Services.DeviceService.Interfaces;
 using Application.Settings;
@@ -12,7 +13,7 @@ var services = new ServiceCollection();
 services.AddDatabaseSettings(new DatabaseSettings(databaseName: "TEST"));
 services.AddDeviceSetting(new DeviceSettings()
 {
-    DeviceName = "ConsoleApp",
+    DeviceName = "Lamp",
     DeviceType = "Light",
     Location = "kitchen",
     Owner = "Fredrik"
@@ -21,8 +22,7 @@ services.AddDeviceSetting(new DeviceSettings()
 
 services.AddHttpClients(new ApiSettings(
     apiBaseUrl: "https://systemutveckling-kyh.azurewebsites.net/api/devices/connect",
-    getConnectionStringUrl: "?code=eCVbmfhXXdnSDoFxRNvpzOjowUnXwAqicmuqVsAtysYqAzFuQ3NFkQ==",
-    getConnectionStateUrl: "?code=ke798xgRCqRRD1SFmx9F_nMCrHXQ_owPtcsD9qsbjvq6AzFu8wFm9Q==&deviceId="
+    connectDeviceApiUrl: "?code=eCVbmfhXXdnSDoFxRNvpzOjowUnXwAqicmuqVsAtysYqAzFuQ3NFkQ=="
 ));
 
 services.AddDeviceService();
@@ -33,14 +33,12 @@ var provider = services.BuildServiceProvider();
 var device = provider.GetService<IDeviceService>();
 
 
-if (device != null)
-{
-    await device.ConnectDeviceAsync();
-}
+if (device is null)
+    throw new DeviceClientException();
 
 
-device.SendingMessagesStateChangedEvent += DeviceSendingMessagesStateChangedEvent;
-
+await device.ConnectDeviceAsync();
+device.ActionStateChangedEvent += DeviceSendingMessagesStateChangedEvent;
 
 
 device.ChangeSendingAllowed(true);
@@ -51,9 +49,9 @@ while (true)
         await Task.Run(async () =>
         {
             var message = await GetTemp();
-             Console.WriteLine("sending: " + message);
-             await device.SendMessageAsync(message);
-         });
+            Console.WriteLine("sending: " + message);
+            await device.SendMessageAsync(message);
+        });
     }
 }
 
@@ -72,5 +70,5 @@ async Task<string> GetTemp()
 
     var rnad = new Random();
 
-    return $"Temp: {rnad.Next(20, 30)}, humidity: {rnad.Next(30,40)}";
+    return $"Temp: {rnad.Next(20, 30)}, humidity: {rnad.Next(30, 40)}";
 }

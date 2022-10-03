@@ -64,7 +64,7 @@ public class KitchenViewModel : ObservableObject
     {
         var stateProp = e.State ? "true" : "false";
 
-        var toggleActionState = new CloudToDeviceMethod("ChangeSendingState");
+        var toggleActionState = new CloudToDeviceMethod("ChangeActionState");
         toggleActionState.SetPayloadJson(stateProp);
         await _serviceManager.InvokeDeviceMethodAsync(e.DeviceId, toggleActionState);
     }

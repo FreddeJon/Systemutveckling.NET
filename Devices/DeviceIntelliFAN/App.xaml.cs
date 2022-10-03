@@ -31,8 +31,7 @@ public partial class App
 
         services.AddHttpClients(new ApiSettings(
             apiBaseUrl: "https://systemutveckling-kyh.azurewebsites.net/api/devices/connect",
-            getConnectionStringUrl: "?code=eCVbmfhXXdnSDoFxRNvpzOjowUnXwAqicmuqVsAtysYqAzFuQ3NFkQ==",
-            getConnectionStateUrl: "?code=ke798xgRCqRRD1SFmx9F_nMCrHXQ_owPtcsD9qsbjvq6AzFu8wFm9Q==&deviceId="
+            connectDeviceApiUrl: "?code=eCVbmfhXXdnSDoFxRNvpzOjowUnXwAqicmuqVsAtysYqAzFuQ3NFkQ=="
         ));
 
         services.AddDeviceService();
