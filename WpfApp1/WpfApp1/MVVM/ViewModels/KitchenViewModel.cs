@@ -53,7 +53,7 @@ namespace WpfApp1.MVVM.ViewModels
 
         private void Change(object? obj)
         {
-
+            var items = obj as Items;
         }
 
     }

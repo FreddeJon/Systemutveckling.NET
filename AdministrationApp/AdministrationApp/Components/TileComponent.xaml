@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             x:Name="TilePanel"
->
+             x:Name="TilePanel">
     <Border Style="{StaticResource TilePanel}">
-        <Grid >
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -19,13 +18,17 @@
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Style="{StaticResource TilePanelState}" />
-                <CheckBox x:Name="TileToggleButton" Click="TileToggleButton_OnClick"  Grid.Column="1" Style="{StaticResource TilePanelToggleButton}"  HorizontalAlignment="Right"/>
+                <CheckBox x:Name="TileToggleButton"
+                          Command="{Binding ToggleActionStateCommand, ElementName=TilePanel}"
+                          CommandParameter="{Binding}"
+                          Grid.Column="1" Style="{StaticResource TilePanelToggleButton}"
+                          HorizontalAlignment="Right" />
             </Grid>
 
             <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-                <TextBlock Style="{StaticResource TilePanelIcon}"/>
-                <TextBlock Style="{StaticResource TilePanelDeviceName}"/>
-                <TextBlock Style="{StaticResource TilePanelDeviceType}"/>
+                <TextBlock Style="{StaticResource TilePanelIcon}" />
+                <TextBlock Style="{StaticResource TilePanelDeviceName}" />
+                <TextBlock Style="{StaticResource TilePanelDeviceType}" />
             </StackPanel>
         </Grid>
     </Border>

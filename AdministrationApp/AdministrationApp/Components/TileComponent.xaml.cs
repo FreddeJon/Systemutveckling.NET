@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using AdministrationApp.MVVM.Core;
 
 namespace AdministrationApp.Components;
 
@@ -30,6 +31,8 @@ public partial class TileComponent : UserControl
 
     public static readonly DependencyProperty StateInActiveProperty =
         DependencyProperty.Register(nameof(StateInActive), typeof(string), typeof(TileComponent));
+
+    public static readonly DependencyProperty ToggleActionStateCommandProperty = DependencyProperty.Register(nameof(ToggleActionStateCommand), typeof(DelegateCommand), typeof(TileComponent), new PropertyMetadata(default(DelegateCommand)));
 
     public TileComponent()
     {
@@ -76,6 +79,12 @@ public partial class TileComponent : UserControl
     {
         get => (string) GetValue(StateInActiveProperty);
         set => SetValue(StateInActiveProperty, value);
+    }
+
+    public DelegateCommand ToggleActionStateCommand
+    {
+        get => (DelegateCommand) GetValue(ToggleActionStateCommandProperty);
+        set => SetValue(ToggleActionStateCommandProperty, value);
     }
 
     private void TileToggleButton_OnClick(object sender, RoutedEventArgs e)

@@ -26,7 +26,11 @@ public class KitchenViewModel : ObservableObject
     {
         _device = new List<DeviceItem>();
         ToggleActionStateEvent += ToggleActionStateEventHandler;
+
+        ToggleState = new DelegateCommand(ToggleDevice);
     }
+
+    public DelegateCommand ToggleState { get; set; }
 
     public List<DeviceItem> Devices
     {
@@ -66,7 +70,13 @@ public class KitchenViewModel : ObservableObject
 
         var toggleActionState = new CloudToDeviceMethod("ChangeActionState");
         toggleActionState.SetPayloadJson(stateProp);
-        await _serviceManager.InvokeDeviceMethodAsync(e.DeviceId, toggleActionState);
+        //await _serviceManager.InvokeDeviceMethodAsync(e.DeviceId, toggleActionState);
+    }
+
+
+    private void ToggleDevice(object? obj)
+    {
+        //throw new NotImplementedException();
     }
 
 
