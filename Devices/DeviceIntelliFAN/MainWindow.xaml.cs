@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     private string _connectionStateMessage = "Connecting";
     private bool _isAllowedToSend;
     private string _toggleSendingStateButton = "Start";
-
+    private Random _rand = new Random();
 
     public MainWindow(IDeviceService deviceService)
     {
@@ -96,7 +97,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         {
             while (IsAllowedToSend)
             {
-                await _deviceService.SendMessageAsync(data: new { message = "hej" });
+                await _deviceService.SendMessageAsync(data: new { temperature = _rand.Next(23,30), humidity = _rand.Next(20,40) });
             }
         }).ConfigureAwait(false);
     }

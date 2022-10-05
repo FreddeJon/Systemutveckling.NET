@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using IoTHubTrigger = Microsoft.Azure.WebJobs.EventHubTriggerAttribute;
 
 using Microsoft.Azure.WebJobs;
@@ -30,6 +31,7 @@ public class SaveDataCosmosDb
                 deviceType = message.Properties["deviceType"].ToString(),
                 location = message.Properties["location"].ToString(),
                 owner = message.Properties["owner"].ToString(),
+                date = DateTime.Now.ToString(CultureInfo.InvariantCulture),
                 data = JsonConvert.DeserializeObject<dynamic>(Encoding.UTF8.GetString(message.Body.Array))
             };
         }

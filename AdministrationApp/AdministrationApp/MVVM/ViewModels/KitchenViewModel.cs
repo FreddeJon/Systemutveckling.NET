@@ -1,27 +1,24 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AdministrationApp.Helpers;
 using AdministrationApp.MVVM.Models;
-using Core.Services;
 
 namespace AdministrationApp.MVVM.ViewModels;
 
 public class KitchenViewModel : ViewModelBase
 {
-    private readonly IDeviceManager _deviceManager;
     private readonly DeviceListViewModel _deviceListViewModel;
     private readonly EditDeviceViewModel _editDeviceViewModel;
-    private ViewModelBase _currentViewModel;
+    private ViewModelBase _currentViewModel = null!;
 
-    public KitchenViewModel(IDeviceManager deviceManager, DeviceListViewModel deviceListViewModel, EditDeviceViewModel editDeviceViewModel)
+    public KitchenViewModel(DeviceListViewModel? deviceListViewModel, EditDeviceViewModel? editDeviceViewModel)
     {
-        _deviceManager = deviceManager;
+        _deviceListViewModel = deviceListViewModel ?? throw new ArgumentNullException(nameof(deviceListViewModel));
+        _editDeviceViewModel = editDeviceViewModel ?? throw new ArgumentNullException(nameof(editDeviceViewModel));
 
-        _deviceListViewModel = deviceListViewModel;
-        _deviceListViewModel.CurrentRoom = Room.Kitchen;
 
-        _editDeviceViewModel = editDeviceViewModel;
+        deviceListViewModel.CurrentRoom = Room.Kitchen;
         _editDeviceViewModel.GoBackRequested += _editDeviceViewModel_GoBackRequested;
-
         _deviceListViewModel.EditDeviceRequested += _deviceListViewModel_EditDeviceRequested;
 
 
@@ -47,9 +44,9 @@ public class KitchenViewModel : ViewModelBase
         await CurrentViewModel.LoadAsync();
     }
 
-    private async void SetCurrentViewModel(ViewModelBase view)
+    private async void SetCurrentViewModel(ViewModelBase viewModel)
     {
-        CurrentViewModel = view;
+        CurrentViewModel = viewModel;
         await CurrentViewModel.LoadAsync();
     }
 

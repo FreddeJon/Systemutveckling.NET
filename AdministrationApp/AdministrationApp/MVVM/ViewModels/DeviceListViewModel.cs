@@ -5,11 +5,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Models;
-using Microsoft.Azure.Devices;
 
 namespace AdministrationApp.MVVM.ViewModels;
 
@@ -20,6 +17,7 @@ public sealed class DeviceListViewModel : ViewModelBase
     private ObservableCollection<DeviceItem> _devices;
     private CancellationTokenSource? _cts;
     private readonly IMapper _mapper;
+    // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private List<DeviceItem> _tempList = new();
 
 

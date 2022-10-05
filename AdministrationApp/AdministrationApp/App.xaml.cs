@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using AdministrationApp.Helpers.AutoMapper;
-using AdministrationApp.MVVM.Models;
 using AdministrationApp.MVVM.ViewModels;
 using Core.Services;
 using Microsoft.Extensions.DependencyInjection;

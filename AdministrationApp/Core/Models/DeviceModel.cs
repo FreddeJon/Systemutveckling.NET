@@ -1,6 +1,4 @@
-﻿using Microsoft.Azure.Devices;
-
-namespace Core.Models;
+﻿namespace Core.Models;
 
 public class DeviceModel
 {

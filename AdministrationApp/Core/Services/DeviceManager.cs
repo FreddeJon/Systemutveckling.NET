@@ -70,7 +70,18 @@ public class DeviceManager : IDeviceManager
                         device.TextActiveState = "ON";
                         device.TextInActiveState = "OFF";
                         break;
-
+                    case "ac":
+                        device.IconActiveState = "\uf8f4";
+                        device.IconInActiveState = "\uf8f4";
+                        device.TextActiveState = "ON";
+                        device.TextInActiveState = "OFF";
+                        break;
+                    case "sensor":
+                        device.IconActiveState = "\uf769";
+                        device.IconInActiveState = "\uf769";
+                        device.TextActiveState = "ON";
+                        device.TextInActiveState = "OFF";
+                        break;
                     default:
                         device.IconActiveState = "\uf2db";
                         device.IconInActiveState = "\uf2db";

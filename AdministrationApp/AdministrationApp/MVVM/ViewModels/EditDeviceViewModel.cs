@@ -35,8 +35,8 @@ public class EditDeviceViewModel : ViewModelBase
         }
     }
 
-    public IReadOnlyList<string> Types { get; set; } = new List<string> {"Fan", "Light", "Sensor", "Temperature","Unkown"};
-    public IReadOnlyList<string> Locations { get; set; } = new List<string> {"Kitchen", "Hallway", "Bedroom", "Livingroom","Unkown"};
+    public IReadOnlyList<string> Types { get; set; } = new List<string> {"Fan", "Light","Ac", "Sensor", "Unkown"};
+    public IReadOnlyList<string> Locations { get; set; } = new List<string> {"Kitchen", "Bedroom", "Livingroom","Unkown"};
 
 
 
