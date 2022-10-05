@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="microsoft.azure.devices" Version="1.38.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="microsoft.toolkit.mvvm" Version="7.1.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,14 @@
     <Resource Include="Assets\Images\kitchen.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MVVM\Core\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

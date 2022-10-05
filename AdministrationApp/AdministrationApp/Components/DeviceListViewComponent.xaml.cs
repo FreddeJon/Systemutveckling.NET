@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using AdministrationApp.MVVM.Core;
 using AdministrationApp.MVVM.Models;
 
 namespace AdministrationApp.Components;
@@ -30,12 +28,12 @@ public partial class DeviceListViewComponent : UserControl
 
 
 
-    public DelegateCommand ToggleActionStateCommand
+    public RelayCommand ToggleActionStateCommand
     {
-        get => (DelegateCommand)GetValue(ToggleActionStateCommandProperty);
+        get => (RelayCommand)GetValue(ToggleActionStateCommandProperty);
         set => SetValue(ToggleActionStateCommandProperty, value);
     }
     public static readonly DependencyProperty ToggleActionStateCommandProperty =
-        DependencyProperty.Register(nameof(ToggleActionStateCommand), typeof(DelegateCommand), typeof(DeviceListViewComponent));
+        DependencyProperty.Register(nameof(ToggleActionStateCommand), typeof(RelayCommand), typeof(DeviceListViewComponent));
 
 }
