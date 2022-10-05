@@ -1,7 +1,6 @@
-﻿namespace AdministrationApp.MVVM.ViewModels
-{
-    public class DeviceSettingsViewModel
-    {
+﻿namespace AdministrationApp.MVVM.ViewModels;
 
-    }
+public class DeviceSettingsViewModel
+{
+
 }

@@ -1,28 +1,39 @@
 ﻿using System;
 using System.Windows;
 using AdministrationApp.MVVM.ViewModels;
+using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AdministrationApp;
 
 /// <summary>
-/// Interaction logic for App.xaml
+///     Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App
 {
     private readonly IServiceProvider _serviceProvider;
 
     public App()
     {
-        _serviceProvider = ConfigureServices(new ServiceCollection());
-
+        _serviceProvider = ConfigureServices();
     }
 
-    private IServiceProvider ConfigureServices(IServiceCollection services)
+    private IServiceProvider ConfigureServices()
     {
+        var services = new ServiceCollection();
+
+        // Windows
         services.AddTransient<MainWindow>();
-        services.AddScoped<MainViewModel>();
-        services.AddScoped<KitchenViewModel>();
+
+        // Services
+        services.AddScoped<IDeviceManager, DeviceManager>();
+
+        // ViewModels
+        services.AddTransient<MainViewModel>();
+        services.AddTransient<KitchenViewModel>();
+
+
+
         return services.BuildServiceProvider();
     }
 
@@ -33,7 +44,7 @@ public partial class App : Application
 
         var mainWindow = _serviceProvider.GetService<MainWindow>();
 
-        
+
         mainWindow?.Show();
     }
 }

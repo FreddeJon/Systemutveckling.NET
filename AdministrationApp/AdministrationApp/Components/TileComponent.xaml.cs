@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using AdministrationApp.MVVM.Core;
+using AdministrationApp.MVVM.Models;
+using Microsoft.Azure.Devices;
 
 namespace AdministrationApp.Components;
 
@@ -32,7 +33,7 @@ public partial class TileComponent : UserControl
     public static readonly DependencyProperty StateInActiveProperty =
         DependencyProperty.Register(nameof(StateInActive), typeof(string), typeof(TileComponent));
 
-    public static readonly DependencyProperty ToggleActionStateCommandProperty = DependencyProperty.Register(nameof(ToggleActionStateCommand), typeof(DelegateCommand), typeof(TileComponent), new PropertyMetadata(default(DelegateCommand)));
+    public static readonly DependencyProperty ToggleActionStateCommandProperty = DependencyProperty.Register(nameof(ToggleActionStateCommand), typeof(RelayCommand<DeviceItem>), typeof(TileComponent), new PropertyMetadata(default(RelayCommand<DeviceItem>)));
 
     public TileComponent()
     {
@@ -81,9 +82,9 @@ public partial class TileComponent : UserControl
         set => SetValue(StateInActiveProperty, value);
     }
 
-    public DelegateCommand ToggleActionStateCommand
+    public RelayCommand<DeviceItem> ToggleActionStateCommand
     {
-        get => (DelegateCommand) GetValue(ToggleActionStateCommandProperty);
+        get => (RelayCommand<DeviceItem>) GetValue(ToggleActionStateCommandProperty);
         set => SetValue(ToggleActionStateCommandProperty, value);
     }
 

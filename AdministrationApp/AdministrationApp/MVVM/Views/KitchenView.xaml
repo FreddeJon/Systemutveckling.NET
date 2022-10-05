@@ -16,7 +16,7 @@
                 <ImageBrush Stretch="Fill" Opacity="0.8" ImageSource="/Assets/Images/kitchen.jpg" />
             </Border.Background>
 
-            <Grid Margin="40 10">
+            <Grid Margin="40 10" ShowGridLines="True">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -75,11 +75,9 @@
                                     IconActive="{Binding IconActiveState}"
                                     IconInActive="{Binding IconInActiveState}"
                                     StateActive="{Binding TextActiveState}"
-                                    StateInActive="{Binding TextInActiveState}"
-                                    ToggleActionStateCommand="{Binding ToggleState ElementName=KitchenV}"/>
+                                    StateInActive="{Binding TextInActiveState}" ToggleActionStateCommand="{Binding DataContext.ToggleDeviceActionStateCommand, ElementName=DeviceTileListView}"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel />

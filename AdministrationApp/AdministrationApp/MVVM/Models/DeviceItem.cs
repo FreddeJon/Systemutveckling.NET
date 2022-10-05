@@ -1,29 +1,63 @@
 ﻿using System;
-using AdministrationApp.Events;
 
 namespace AdministrationApp.MVVM.Models;
 
-public class DeviceItem
+public class DeviceItem : ObservableObject
 {
+    private string _deviceId = "";
+    private string _deviceName = "";
+    private string _deviceType = "Unknown";
     private bool _actionState;
-    public string DeviceId { get; set; } = "";
-    public string DeviceName { get; set; } = "";
-    public string DeviceType { get; set; } = "Unknown";
+    private string _iconActiveState = "";
+    private string _iconInActiveState = "";
+    private string _textActiveState = "";
+    private string _textInActiveState = "";
+
+    public string DeviceId
+    {
+        get => _deviceId;
+        set => SetProperty(ref _deviceId, value);
+    }
+
+    public string DeviceName
+    {
+        get => _deviceName;
+        set => SetProperty(ref _deviceName, value);
+    }
+
+    public string DeviceType
+    {
+        get => _deviceType;
+        set => SetProperty(ref _deviceType, value);
+    }
 
     public bool ActionState
     {
         get => _actionState;
-        set
-        {
-            if (Equals(_actionState, value)) return;
-            _actionState = value;
-            ToggleActionStateEvent?.Invoke(this,new ToggleActionStateArgs(_actionState, DeviceId));
-        }
+        set => SetProperty(ref _actionState, value);
     }
 
-    public string IconActiveState { get; set; } = "";
-    public string IconInActiveState { get; set; } = "";
-    public string TextActiveState { get; set; } = "";
-    public string TextInActiveState { get; set; } = "";
-    public EventHandler<ToggleActionStateArgs> ToggleActionStateEvent { get; set; }
+    public string IconActiveState
+    {
+        get => _iconActiveState;
+        set => SetProperty(ref _iconActiveState, value);
+    }
+
+    public string IconInActiveState
+    {
+        get => _iconInActiveState;
+        set => SetProperty(ref _iconInActiveState, value);
+    }
+
+    public string TextActiveState
+    {
+        get => _textActiveState;
+        set => SetProperty(ref _textActiveState, value);
+    }
+
+    public string TextInActiveState
+    {
+        get => _textInActiveState;
+        set => SetProperty(ref _textInActiveState, value);
+    }
 }

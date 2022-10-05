@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdministrationApp.MVVM.ViewModels
+namespace AdministrationApp.MVVM.ViewModels;
+
+public class ViewModelBase : ObservableObject
 {
-    public class ViewModelBase : ObservableObject
-    {
-        public virtual Task LoadAsync() => Task.CompletedTask;
-    }
+    public virtual Task LoadAsync() => Task.CompletedTask;
+}
 }
