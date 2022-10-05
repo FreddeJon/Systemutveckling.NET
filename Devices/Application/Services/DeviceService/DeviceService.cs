@@ -108,6 +108,7 @@ public class DeviceService : IDeviceService
                 await SetDeviceReportedDetails(_deviceSettings);
 
             await _deviceClient!.SetMethodHandlerAsync("ChangeActionState", ChangeActionStateMethodHandler, null);
+            await _deviceClient!.SetMethodHandlerAsync("UpdateDeviceProperties", UpdateDevicePropertiesMethodHandler, null);
 
             ConnectionState = ConnectionState.Connected;
         }
@@ -132,6 +133,7 @@ public class DeviceService : IDeviceService
         if (!IsConnected)
             ConnectionState = ConnectionState.NotConnected;
     }
+
 
 
     public async Task SendMessageAsync(object? data = null)
@@ -197,6 +199,41 @@ public class DeviceService : IDeviceService
             return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
         }
     }
+    private async Task<MethodResponse> UpdateDevicePropertiesMethodHandler(MethodRequest methodrequest, object usercontext)
+    {
+        var result = $"{{\"result\":\"Executed direct method: {methodrequest.Name}\"}}";
+        var json = Encoding.UTF8.GetString(methodrequest.Data);
+
+        var data = JsonConvert.DeserializeObject<UpdateDeviceRequest>(json);
+
+        if (data is null)
+        {
+            return await Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 400));
+        }
+
+        _deviceSettings!.DeviceName = data.DeviceName;
+        _deviceSettings!.DeviceType = data.DeviceType;
+        _deviceSettings!.Location = data.Location;
+        _deviceSettings!.Owner = data.Owner;
+        _deviceSettings!.Interval= data.Interval;
+
+
+
+        await _sqliteService.UpdateDeviceSettingsAsync(_deviceSettings);
+
+        var reported = new TwinCollection
+        {
+            ["deviceName"] = _deviceSettings!.DeviceName,
+            ["deviceType"] = _deviceSettings.DeviceType,
+            ["location"] = _deviceSettings.Location.ToLower(),
+            ["owner"] = _deviceSettings.Owner,
+            ["interval"] = _deviceSettings.Interval,
+        };
+        await _deviceClient!.UpdateReportedPropertiesAsync(reported);
+
+        return await Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
+    }
+
 
     private static async Task<bool> GetConnectionStringFromApi(IDatabaseService sqliteService,
         DeviceSettings? deviceSettings,
@@ -254,6 +291,7 @@ public class DeviceService : IDeviceService
             ["deviceType"] = deviceSettings.DeviceType,
             ["location"] = deviceSettings.Location.ToLower(),
             ["owner"] = deviceSettings.Owner,
+
             ["actionState"] = "false"
         };
         await _deviceClient!.UpdateReportedPropertiesAsync(reported);

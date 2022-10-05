@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using AdministrationApp.MVVM.Models;
-using Microsoft.Azure.Devices;
-
 namespace AdministrationApp.Components;
 
 /// <summary>
@@ -33,7 +31,13 @@ public partial class TileComponent : UserControl
     public static readonly DependencyProperty StateInActiveProperty =
         DependencyProperty.Register(nameof(StateInActive), typeof(string), typeof(TileComponent));
 
-    public static readonly DependencyProperty ToggleActionStateCommandProperty = DependencyProperty.Register(nameof(ToggleActionStateCommand), typeof(RelayCommand<DeviceItem>), typeof(TileComponent), new PropertyMetadata(default(RelayCommand<DeviceItem>)));
+    public static readonly DependencyProperty ToggleActionStateCommandProperty =
+        DependencyProperty.Register(nameof(ToggleActionStateCommand), typeof(RelayCommand<DeviceItem>),
+            typeof(TileComponent), new PropertyMetadata(default(RelayCommand<DeviceItem>)));
+
+    public static readonly DependencyProperty EditDeviceCommandProperty =
+        DependencyProperty.Register(nameof(EditDeviceCommand), typeof(RelayCommand<DeviceItem>), typeof(TileComponent),
+            new PropertyMetadata(default(RelayCommand<DeviceItem>)));
 
     public TileComponent()
     {
@@ -88,9 +92,14 @@ public partial class TileComponent : UserControl
         set => SetValue(ToggleActionStateCommandProperty, value);
     }
 
+    public RelayCommand<DeviceItem> EditDeviceCommand
+    {
+        get => (RelayCommand<DeviceItem>) GetValue(EditDeviceCommandProperty);
+        set => SetValue(EditDeviceCommandProperty, value);
+    }
+
     private void TileToggleButton_OnClick(object sender, RoutedEventArgs e)
     {
         IsChecked = TileToggleButton.IsChecked;
     }
-
 }

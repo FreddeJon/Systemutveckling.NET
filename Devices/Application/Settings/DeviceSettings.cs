@@ -1,11 +1,11 @@
 ﻿namespace Application.Settings;
 public class DeviceSettings
 {
-    public string DeviceId { get; init; } = Guid.NewGuid().ToString();
-    public string DeviceName { get; init; } = "";
-    public string DeviceType { get; init; } = "";
-    public string Owner { get; init; } = "";
-    public string Location { get; init; } = "";
+    public string DeviceId { get; set; } = Guid.NewGuid().ToString();
+    public string DeviceName { get; set; } = "";
+    public string DeviceType { get; set; } = "";
+    public string Owner { get; set; } = "";
+    public string Location { get; set; } = "";
     public int Interval { get; set; } = 10000;
     public string ConnectionString { get; set; } = "";
 }

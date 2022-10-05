@@ -7,18 +7,22 @@ public class MainViewModel : ViewModelBase
 {
     private ViewModelBase? _selectedViewModel;
 
-    public MainViewModel(KitchenViewModel kitchenViewModel)
+    public MainViewModel(KitchenViewModel kitchenViewModel, BedroomViewModel bedroomViewModel)
     {
         KitchenViewModel = kitchenViewModel;
+        BedroomViewModel = bedroomViewModel;
 
         SelectedViewModel = KitchenViewModel;
 
 
         SelectViewModelCommand = new RelayCommand<ViewModelBase>(SelectViewModel);
         CloseApplicationCommand = new RelayCommand(CloseApplication);
+
+
     }
 
     public KitchenViewModel KitchenViewModel { get; }
+    public BedroomViewModel BedroomViewModel { get; }
 
     public RelayCommand CloseApplicationCommand { get; set; }
 
@@ -41,7 +45,7 @@ public class MainViewModel : ViewModelBase
         await LoadAsync();
     }
 
-    private void CloseApplication()
+    private static void CloseApplication()
     {
         Application.Current.Shutdown();
     }

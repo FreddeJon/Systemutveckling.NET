@@ -1,4 +1,5 @@
 // Global using directives
 
-global using Microsoft.Toolkit.Mvvm.ComponentModel;
-global using Microsoft.Toolkit.Mvvm.Input;
+global using AutoMapper;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;

@@ -4,7 +4,8 @@ namespace Core.Services;
 
 public interface IDeviceManager
 {
-    public Task ToggleDeviceStateAsync(string deviceId);
-    public IAsyncEnumerable<DeviceModel> GetDevicesAsync();
+    public Task<bool> ToggleDeviceStateAsync(string deviceId, bool updatedState);
+    public Task<IEnumerable<DeviceModel>> GetDevicesAsync(string room);
 
+    Task<bool> UpdateDeviceAsync(DeviceModel device);
 }

@@ -36,7 +36,6 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         Closed += MainWindow_Closed;
     }
 
-
     public bool IsAllowedToSend
     {
         get => _isAllowedToSend;

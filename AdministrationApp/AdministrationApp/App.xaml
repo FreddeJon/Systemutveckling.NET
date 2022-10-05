@@ -15,6 +15,17 @@
             <DataTemplate DataType="{x:Type viewModels:KitchenViewModel}">
                 <views:KitchenView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:BedroomViewModel}">
+                <views:BedroomView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:DeviceListViewModel}">
+                <views:DeviceListView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:EditDeviceViewModel}">
+                <views:EditDeviceView/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AdministrationApp.MVVM.Models;
+﻿namespace AdministrationApp.MVVM.Models;
 
 public class DeviceItem : ObservableObject
 {
@@ -12,6 +10,10 @@ public class DeviceItem : ObservableObject
     private string _iconInActiveState = "";
     private string _textActiveState = "";
     private string _textInActiveState = "";
+    private int _interval;
+    private string _location = "Unkown";
+    private string _owner = "Unkown";
+    private string _connectionState = "Disconnected";
 
     public string DeviceId
     {
@@ -29,6 +31,12 @@ public class DeviceItem : ObservableObject
     {
         get => _deviceType;
         set => SetProperty(ref _deviceType, value);
+    }
+
+    public string ConnectionState
+    {
+        get => _connectionState;
+        set => SetProperty(ref _connectionState, value);
     }
 
     public bool ActionState
@@ -59,5 +67,23 @@ public class DeviceItem : ObservableObject
     {
         get => _textInActiveState;
         set => SetProperty(ref _textInActiveState, value);
+    }
+
+    public string Location
+    {
+        get => _location;
+        set => SetProperty(ref _location, value);
+    }
+
+    public string Owner
+    {
+        get => _owner;
+        set => SetProperty(ref _owner, value);
+    }
+
+    public int Interval
+    {
+        get => _interval;
+        set => SetProperty(ref _interval, value);
     }
 }
