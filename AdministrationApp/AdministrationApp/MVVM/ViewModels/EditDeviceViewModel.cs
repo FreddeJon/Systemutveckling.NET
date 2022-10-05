@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AdministrationApp.MVVM.Models;
 using Core.Models;
 using Core.Services;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
 
@@ -35,13 +36,13 @@ public class EditDeviceViewModel : ViewModelBase
         }
     }
 
-    public IReadOnlyList<string> Types { get; set; } = new List<string> {"Fan", "Light","Ac", "Sensor", "Unkown"};
-    public IReadOnlyList<string> Locations { get; set; } = new List<string> {"Kitchen", "Bedroom", "Livingroom","Unkown"};
+    public IReadOnlyList<string> Types { get; init; } = new List<string> { "Fan", "Light", "Ac", "Sensor", "Unkown" };
+    public IReadOnlyList<string> Locations { get; init; } = new List<string> { "Kitchen", "Bedroom", "Livingroom", "Unkown" };
 
 
 
-    public AsyncRelayCommand<DeviceItem> EditDeviceCommand { get; set; }
-    public RelayCommand GoBackCommand { get; set; }
+    public AsyncRelayCommand<DeviceItem> EditDeviceCommand { get; }
+    public RelayCommand GoBackCommand { get; }
 
 
     public event Action GoBackRequested = delegate { };

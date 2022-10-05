@@ -7,6 +7,7 @@ using System.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
 
@@ -35,9 +36,9 @@ public sealed class DeviceListViewModel : ViewModelBase
 
     public Room CurrentRoom { get; set; } = Room.Unset;
 
-    public RelayCommand<DeviceItem> EditDeviceCommand { get; set; }
+    public RelayCommand<DeviceItem> EditDeviceCommand { get; }
 
-    public RelayCommand<DeviceItem> ToggleDeviceActionStateCommand { get; set; }
+    public RelayCommand<DeviceItem> ToggleDeviceActionStateCommand { get; }
 
     public event Action<DeviceItem> EditDeviceRequested = delegate { };
 
@@ -59,13 +60,14 @@ public sealed class DeviceListViewModel : ViewModelBase
             do
             {
                 var devices = await _deviceManager.GetDevicesAsync(CurrentRoom.GetRoom());
+                var deviceModels = devices.ToList();
 
 
                 _tempList.Clear();
 
                 foreach (var item in _devices)
                 {
-                    var device = devices.FirstOrDefault(x => x.DeviceId == item.DeviceId);
+                    var device = deviceModels.FirstOrDefault(x => x.DeviceId == item.DeviceId);
                     if (device == null)
                         _tempList.Add(item);
                 }
@@ -76,7 +78,7 @@ public sealed class DeviceListViewModel : ViewModelBase
                 }
 
 
-                foreach (var device in devices)
+                foreach (var device in deviceModels)
                 {
                     var tempDevice = Devices.FirstOrDefault(x => x.DeviceId == device.DeviceId);
                     if (tempDevice is null)
@@ -86,6 +88,7 @@ public sealed class DeviceListViewModel : ViewModelBase
                     else
                     {
                         var mappedDevice = _mapper.Map<DeviceItem>(device);
+                        // ReSharper disable once RedundantAssignment
                         tempDevice = mappedDevice;
                     }
 

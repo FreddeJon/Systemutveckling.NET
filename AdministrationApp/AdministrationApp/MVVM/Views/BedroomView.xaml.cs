@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace AdministrationApp.MVVM.Views
+﻿namespace AdministrationApp.MVVM.Views
 {
     /// <summary>
     /// Interaction logic for BedroomView.xaml
     /// </summary>
-    public partial class BedroomView : UserControl
+    public partial class BedroomView
     {
         public BedroomView()
         {

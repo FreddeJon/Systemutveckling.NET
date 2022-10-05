@@ -37,7 +37,7 @@ public class DeviceManager : IDeviceManager
     public async Task<IEnumerable<DeviceModel>> GetDevicesAsync(string room)
     {
         var query = room == "unset"
-            ? $"select * from devices"
+            ? "select * from devices"
             : $"select * from devices WHERE properties.reported.location = '{room}'";
 
         var result =

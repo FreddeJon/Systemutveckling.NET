@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace AdministrationApp.Components;
+﻿namespace AdministrationApp.Components;
 
 /// <summary>
 /// Interaction logic for MainMenuComponent.xaml
 /// </summary>
-public partial class MainMenuComponent : UserControl
+public partial class MainMenuComponent
 {
     public MainMenuComponent()
     {

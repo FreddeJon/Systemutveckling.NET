@@ -1,6 +1,7 @@
 ﻿using AdministrationApp.Helpers;
 using AdministrationApp.MVVM.Models;
 using System.Threading.Tasks;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels
 {

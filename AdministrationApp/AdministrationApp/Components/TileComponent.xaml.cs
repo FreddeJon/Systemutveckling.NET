@@ -1,12 +1,11 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using AdministrationApp.MVVM.Models;
 namespace AdministrationApp.Components;
 
 /// <summary>
 ///     Interaction logic for TileComponent.xaml
 /// </summary>
-public partial class TileComponent : UserControl
+public partial class TileComponent
 {
     public static readonly DependencyProperty DeviceNameProperty =
         DependencyProperty.Register(nameof(DeviceName), typeof(string), typeof(TileComponent));
@@ -96,10 +95,5 @@ public partial class TileComponent : UserControl
     {
         get => (RelayCommand<DeviceItem>) GetValue(EditDeviceCommandProperty);
         set => SetValue(EditDeviceCommandProperty, value);
-    }
-
-    private void TileToggleButton_OnClick(object sender, RoutedEventArgs e)
-    {
-        IsChecked = TileToggleButton.IsChecked;
     }
 }

@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace AdministrationApp.MVVM.Views;
+﻿namespace AdministrationApp.MVVM.Views;
 
 /// <summary>
 /// Interaction logic for KitchenView.xaml
 /// </summary>
-public partial class KitchenView : UserControl
+public partial class KitchenView
 {
     public KitchenView()
     {

@@ -7,7 +7,7 @@ namespace AdministrationApp;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window
+public partial class MainWindow
 {
     private readonly MainViewModel _viewModel;
 

@@ -5,11 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:models="clr-namespace:AdministrationApp.MVVM.Models"
              xmlns:components="clr-namespace:AdministrationApp.Components"
+             xmlns:viewModels="clr-namespace:AdministrationApp.MVVM.ViewModels"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance viewModels:DeviceListViewModel}"
+             x:Name="DeviceListViewName"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
-        <ItemsControl x:Name="DeviceTileListView" ItemsSource="{Binding Devices}">
+        <ItemsControl ItemsSource="{Binding Devices}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:DeviceItem}">
                     <components:TileComponent
@@ -20,8 +23,8 @@
                         IconInActive="{Binding IconInActiveState}"
                         StateActive="{Binding TextActiveState}"
                         StateInActive="{Binding TextInActiveState}"
-                        ToggleActionStateCommand="{Binding DataContext.ToggleDeviceActionStateCommand, ElementName=DeviceTileListView}" 
-                        EditDeviceCommand="{Binding DataContext.EditDeviceCommand, ElementName=DeviceTileListView}"/>
+                        ToggleActionStateCommand="{Binding DataContext.ToggleDeviceActionStateCommand, ElementName=DeviceListViewName}" 
+                        EditDeviceCommand="{Binding DataContext.EditDeviceCommand, ElementName=DeviceListViewName}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>

@@ -1,4 +1,5 @@
-﻿namespace AdministrationApp.MVVM.Models;
+﻿// ReSharper disable ClassNeverInstantiated.Global
+namespace AdministrationApp.MVVM.Models;
 
 public class DeviceItem : ObservableObject
 {
