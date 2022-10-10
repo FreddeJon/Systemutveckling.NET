@@ -29,9 +29,18 @@ public class DeviceManager : IDeviceManager
         var stateProp = updatedState ? "true" : "false";
         var toggleActionState = new CloudToDeviceMethod("ChangeActionState");
         toggleActionState.SetPayloadJson(stateProp);
-        await _serviceManager.InvokeDeviceMethodAsync(deviceId, toggleActionState);
 
-        return true;
+        try
+        {
+            await _serviceManager.InvokeDeviceMethodAsync(deviceId, toggleActionState);
+            return true;
+        }
+        catch
+        {
+            // ignored
+        }
+
+        return false;
     }
 
     public async Task<IEnumerable<DeviceModel>> GetDevicesAsync(string room)
