@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Core.Services.DeviceService.Events;
+using Core.Services.DeviceService.Interfaces;
+using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
-using Core.Services.DeviceService.Events;
-using Core.Services.DeviceService.Interfaces;
+// ReSharper disable UnusedMember.Global
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -86,7 +85,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
     private void Initialize()
     {
-        _deviceService.DeviceActionStateChangedEvent += OnSendingMessagesStateChangedEvent;
+        _deviceService.DeviceActionStateChangedEvent += OnActionStateChangedEvent;
         _deviceService.DeviceConnectionStateChangedEvent += OnConnectionStateChangedEvent;
         _deviceService.DeviceServiceErrorEvent += OnDeviceServiceErrorEvent;
 
@@ -121,7 +120,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         ErrorOccurred = true;
     }
 
-    private void OnSendingMessagesStateChangedEvent(object? sender,
+    private void OnActionStateChangedEvent(object? sender,
         SendingMessagesArgs e)
     {
         IsAllowedToSend = e.IsAllowedToSend;
@@ -144,7 +143,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
-        _deviceService.DeviceActionStateChangedEvent -= OnSendingMessagesStateChangedEvent;
+        _deviceService.DeviceActionStateChangedEvent -= OnActionStateChangedEvent;
         _deviceService.DeviceConnectionStateChangedEvent -= OnConnectionStateChangedEvent;
         _deviceService.DeviceServiceErrorEvent -= OnDeviceServiceErrorEvent;
 

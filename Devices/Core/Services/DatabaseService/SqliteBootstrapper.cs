@@ -52,7 +52,8 @@ public static class SqliteBootstrapper
                 sqlQuery += $" {property} VARCHAR(200) NOT NULL";
                 sqlQuery +=
                     properties.IndexOf(property) != properties.IndexOf(properties.Last()) ? "," : ")";
-            }else if (property == nameof(DeviceSettings.DeviceId))
+            }
+            else if (property == nameof(DeviceSettings.DeviceId))
             {
                 sqlQuery += $" {property} INT NULL";
                 sqlQuery +=

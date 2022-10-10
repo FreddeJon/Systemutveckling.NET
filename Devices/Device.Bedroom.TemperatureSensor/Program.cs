@@ -13,7 +13,7 @@ internal static class Program
     private static bool _isConnected;
     private static IDeviceService? _deviceService;
 
-    public static async Task Main(string[] args)
+    public static async Task Main()
     {
         var services = new ServiceCollection();
 
@@ -42,7 +42,7 @@ internal static class Program
                 {
                     Console.WriteLine("Sending message");
                     // TODO SEND TEMP
-                    await _deviceService.SendMessageAsync(new {Temperature = "24"});
+                    await _deviceService.SendMessageAsync(new { Temperature = "24" });
                 });
             }
         }

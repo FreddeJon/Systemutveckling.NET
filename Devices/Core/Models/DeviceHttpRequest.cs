@@ -1,4 +1,5 @@
-﻿namespace Core.Models;
+﻿// ReSharper disable MemberCanBePrivate.Global
+namespace Core.Models;
 public class DeviceHttpRequest
 {
     public DeviceHttpRequest(string? deviceId)

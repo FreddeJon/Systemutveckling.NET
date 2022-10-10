@@ -58,9 +58,9 @@ public class SqliteService : IDatabaseService
         {
             await using SqliteConnection conn = new(_databaseSettings.ConnectionString);
 
-            var sqlQuery =  $"UPDATE {_databaseSettings.DatabaseTable} SET ConnectionString='' WHERE DeviceId=@DeviceId";
+            var sqlQuery = $"UPDATE {_databaseSettings.DatabaseTable} SET ConnectionString='' WHERE DeviceId=@DeviceId";
 
-            await conn.ExecuteAsync(sqlQuery, new {settings?.DeviceId});
+            await conn.ExecuteAsync(sqlQuery, new { settings?.DeviceId });
 
             return true;
         }
@@ -74,7 +74,7 @@ public class SqliteService : IDatabaseService
     {
         var update = $"UPDATE {databaseTable} SET ";
 
-        List<string> properties = deviceSettings!.GetType().GetProperties().Select(x => x.Name).ToList();
+        List<string> properties = deviceSettings.GetType().GetProperties().Select(x => x.Name).ToList();
 
         properties.ForEach(property =>
         {

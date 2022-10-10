@@ -53,7 +53,7 @@ public sealed class DeviceListViewModel : ViewModelBase
 
     public override async Task LoadAsync()
     {
-        var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
+        var timer = new PeriodicTimer(TimeSpan.FromSeconds(10));
 
         try
         {

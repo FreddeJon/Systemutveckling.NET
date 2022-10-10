@@ -9,7 +9,7 @@ namespace Core;
 
 public static class RegisterDependencyExtension
 {
-    public static IServiceCollection AddDeviceService(this IServiceCollection services, DeviceSettings deviceSettings,
+    public static void AddDeviceService(this IServiceCollection services, DeviceSettings deviceSettings,
         DatabaseSettings? databaseSettings = null, ApiSettings? apiSettings = null)
     {
         apiSettings ??= new ApiSettings();
@@ -24,6 +24,5 @@ public static class RegisterDependencyExtension
 
         services.AddScoped<IDatabaseService, SqliteService>();
         services.AddScoped<IDeviceService, DeviceService>();
-        return services;
     }
 }

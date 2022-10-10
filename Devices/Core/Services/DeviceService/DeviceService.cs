@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Text;
-using Core.Execeptions;
+﻿using Core.Execeptions;
 using Core.Models;
 using Core.Services.DatabaseService.Interfaces;
 using Core.Services.DeviceService.Events;
@@ -10,6 +8,7 @@ using Core.Settings;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace Core.Services.DeviceService;
 
@@ -50,7 +49,7 @@ public sealed class DeviceService : IDeviceService
             }
 
             _connectionState = value;
-            DeviceConnectionStateChangedEvent?.Invoke(this,
+            DeviceConnectionStateChangedEvent.Invoke(this,
                 new ConnectionStateArgs(_connectionState.GetMessage(), IsConnected));
         }
     }
@@ -71,7 +70,7 @@ public sealed class DeviceService : IDeviceService
             }
 
             _isAllowedToSendMessagesMessages = value;
-            DeviceActionStateChangedEvent?.Invoke(this, new SendingMessagesArgs(_isAllowedToSendMessagesMessages));
+            DeviceActionStateChangedEvent(this, new SendingMessagesArgs(_isAllowedToSendMessagesMessages));
         }
     }
 
@@ -199,14 +198,14 @@ public sealed class DeviceService : IDeviceService
 
         ChangeSendingAllowed(sendingState);
 
-         result = "{\"result\":\"Executed method\"}";
+        result = "{\"result\":\"Executed method\"}";
         return Task.FromResult(new MethodResponse(Encoding.UTF8.GetBytes(result), 200));
     }
 
     private async Task<MethodResponse> UpdateDevicePropertiesMethodHandler(MethodRequest methodrequest,
         object usercontext)
     {
-        var result = JsonConvert.SerializeObject(new {result = $"could not update device: {_deviceSettings!.DeviceId}"});
+        var result = JsonConvert.SerializeObject(new { result = $"could not update device: {_deviceSettings!.DeviceId}" });
 
 
         var json = Encoding.UTF8.GetString(methodrequest.Data);

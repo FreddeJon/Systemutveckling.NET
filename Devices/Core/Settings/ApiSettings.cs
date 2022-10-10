@@ -7,7 +7,7 @@
 
         public ApiSettings()
         {
-            
+
         }
 
         public ApiSettings(string apiBaseUrl, string connectDeviceApiUrl)

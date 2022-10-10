@@ -4,11 +4,11 @@
     {
         public DeviceSettingsException() : base("Could not load device settings")
         {
-            
+
         }
         public DeviceSettingsException(string message) : base(message)
         {
-            
+
         }
     }
 }

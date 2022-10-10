@@ -1,11 +1,11 @@
-﻿using System.Net.Http.Json;
-using Core.Execeptions;
+﻿using Core.Execeptions;
 using Core.Models;
 using Core.Services.DatabaseService.Interfaces;
 using Core.Settings;
 using Microsoft.Azure.Devices.Client;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 namespace Core.Services.DeviceService.Helpers;
 public class DeviceServiceInitializer
@@ -78,12 +78,12 @@ public class DeviceServiceInitializer
         {
             ["deviceName"] = deviceSettings!.DeviceName,
             ["deviceType"] = deviceSettings.DeviceType,
-            ["location"] = deviceSettings.Location.ToLower(),
+            ["location"] = deviceSettings.Location?.ToLower(),
             ["owner"] = deviceSettings.Owner,
 
             ["actionState"] = "false"
         };
-        await deviceClient!.UpdateReportedPropertiesAsync(reported);
+        await deviceClient.UpdateReportedPropertiesAsync(reported);
     }
 
 }

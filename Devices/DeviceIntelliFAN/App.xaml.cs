@@ -1,7 +1,7 @@
-﻿using System.Windows;
-using Core;
+﻿using Core;
 using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
 namespace DeviceIntelliFAN;
 public partial class App
