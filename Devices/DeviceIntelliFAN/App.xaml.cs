@@ -1,13 +1,9 @@
 ﻿using System.Windows;
-using Application;
-using Application.Settings;
+using Core;
+using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DeviceIntelliFAN;
-
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
 public partial class App
 {
     private readonly ServiceProvider _serviceProvider;
@@ -20,21 +16,13 @@ public partial class App
     public static IServiceCollection ConfigureServices(IServiceCollection services)
     {
         services.AddTransient<MainWindow>();
-        services.AddDatabaseSettings(new DatabaseSettings());
-        services.AddDeviceSetting(new DeviceSettings()
+        services.AddDeviceService(new DeviceSettings()
         {
             DeviceName = "IntelliFAN",
             Location = "Kitchen",
             DeviceType = "Fan",
             Owner = "Fredrik"
         });
-
-        services.AddHttpClients(new ApiSettings(
-            apiBaseUrl: "https://systemutveckling-kyh.azurewebsites.net/api/devices/connect",
-            connectDeviceApiUrl: "?code=eCVbmfhXXdnSDoFxRNvpzOjowUnXwAqicmuqVsAtysYqAzFuQ3NFkQ=="
-        ));
-
-        services.AddDeviceService();
 
         return services;
     }

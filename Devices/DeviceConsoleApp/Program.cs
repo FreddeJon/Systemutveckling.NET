@@ -1,31 +1,19 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-
-using Application;
-using Application.Execeptions;
-using Application.Services.DeviceService.Events;
-using Application.Services.DeviceService.Interfaces;
-using Application.Settings;
+﻿using Core;
+using Core.Execeptions;
+using Core.Services.DeviceService.Events;
+using Core.Services.DeviceService.Interfaces;
+using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
 
-services.AddDatabaseSettings(new DatabaseSettings(databaseName: "TEST"));
-services.AddDeviceSetting(new DeviceSettings()
+services.AddDeviceService(new DeviceSettings()
 {
     DeviceName = "Lamp",
     DeviceType = "Light",
     Location = "kitchen",
     Owner = "Fredrik"
-
 });
-
-services.AddHttpClients(new ApiSettings(
-    apiBaseUrl: "https://systemutveckling-kyh.azurewebsites.net/api/devices/connect",
-    connectDeviceApiUrl: "?code=eCVbmfhXXdnSDoFxRNvpzOjowUnXwAqicmuqVsAtysYqAzFuQ3NFkQ=="
-));
-
-services.AddDeviceService();
 
 
 var provider = services.BuildServiceProvider();
@@ -38,13 +26,13 @@ if (device is null)
 
 
 await device.ConnectDeviceAsync();
-device.ActionStateChangedEvent += DeviceSendingMessagesStateChangedEvent;
+device.DeviceActionStateChangedEvent += DeviceSendingMessagesStateChangedEvent;
 
 
 device.ChangeSendingAllowed(true);
 while (true)
 {
-    if (device.IsAllowedToSend)
+    if (device.IsAllowedToSendMessages)
     {
         await Task.Run(async () =>
         {
@@ -56,7 +44,7 @@ while (true)
 }
 
 
-void DeviceSendingMessagesStateChangedEvent(object sender, SendingMessagesArgs e)
+void DeviceSendingMessagesStateChangedEvent(object? sender, SendingMessagesArgs e)
 {
     Console.WriteLine(e.IsAllowedToSend + " FROM EVENT");
 }

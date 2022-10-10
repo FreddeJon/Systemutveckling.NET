@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
 
@@ -7,22 +8,26 @@ public class MainViewModel : ViewModelBase
 {
     private ViewModelBase? _selectedViewModel;
 
-    public MainViewModel(KitchenViewModel kitchenViewModel)
+    public MainViewModel(KitchenViewModel kitchenViewModel, BedroomViewModel bedroomViewModel)
     {
         KitchenViewModel = kitchenViewModel;
+        BedroomViewModel = bedroomViewModel;
 
         SelectedViewModel = KitchenViewModel;
 
 
         SelectViewModelCommand = new RelayCommand<ViewModelBase>(SelectViewModel);
         CloseApplicationCommand = new RelayCommand(CloseApplication);
+
+
     }
 
     public KitchenViewModel KitchenViewModel { get; }
+    public BedroomViewModel BedroomViewModel { get; }
 
-    public RelayCommand CloseApplicationCommand { get; set; }
+    public RelayCommand CloseApplicationCommand { get; }
 
-    public RelayCommand<ViewModelBase> SelectViewModelCommand { get; set; }
+    public RelayCommand<ViewModelBase> SelectViewModelCommand { get; }
 
     public ViewModelBase? SelectedViewModel
     {
@@ -41,7 +46,7 @@ public class MainViewModel : ViewModelBase
         await LoadAsync();
     }
 
-    private void CloseApplication()
+    private static void CloseApplication()
     {
         Application.Current.Shutdown();
     }

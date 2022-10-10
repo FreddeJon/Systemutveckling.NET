@@ -10,6 +10,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0">
@@ -30,6 +31,7 @@
                 <TextBlock Style="{StaticResource TilePanelDeviceName}" />
                 <TextBlock Style="{StaticResource TilePanelDeviceType}" />
             </StackPanel>
+            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Grid.Row="2" FontFamily="{StaticResource Fontawesome-Regular}" Content="&#xf013;" Command="{Binding EditDeviceCommand, ElementName=TilePanel}" CommandParameter="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#999999" FontSize="20"></Button>
         </Grid>
     </Border>
 

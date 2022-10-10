@@ -1,34 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
-using Application.Services.DeviceService.Events;
-using Application.Services.DeviceService.Interfaces;
+using Core.Services.DeviceService.Events;
+using Core.Services.DeviceService.Interfaces;
 
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace DeviceIntelliFAN;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public sealed partial class MainWindow : INotifyPropertyChanged
 {
     private readonly IDeviceService _deviceService;
-    private bool _isConnected;
     private string _connectionStateMessage = "Connecting";
     private bool _isAllowedToSend;
+    private bool _isConnected;
     private string _toggleSendingStateButton = "Start";
-
+    private string? _errorMessage;
+    private bool _errorOccurred;
 
     public MainWindow(IDeviceService deviceService)
     {
         _deviceService = deviceService;
 
         InitializeComponent();
-        this.DataContext = this;
+        DataContext = this;
 
         Initialize();
 
@@ -36,27 +35,32 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         Closed += MainWindow_Closed;
     }
 
+    public bool ErrorOccurred
+
+    {
+        get => _errorOccurred;
+        private set => SetField(ref _errorOccurred, value);
+    }
+
+    public string? ErrorMessage
+    {
+        get => _errorMessage;
+        private set => SetField(ref _errorMessage, value);
+    }
 
     public bool IsAllowedToSend
     {
         get => _isAllowedToSend;
         set
         {
-            if (value == _isAllowedToSend) return;
-            _isAllowedToSend = value;
-            OnPropertyChanged();
+            SetField(ref _isAllowedToSend, value);
         }
     }
 
     public string ConnectionStateMessage
     {
         get => _connectionStateMessage;
-        set
-        {
-            if (value == _connectionStateMessage) return;
-            _connectionStateMessage = value;
-            OnPropertyChanged();
-        }
+        set => SetField(ref _connectionStateMessage, value);
     }
 
     public bool IsConnected
@@ -64,8 +68,12 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         get => _isConnected;
         set
         {
-            if (value == _isConnected) return;
-            _isConnected = value;
+            if (value == _isConnected)
+            {
+                return;
+            }
+
+            SetField(ref _isConnected, value);
             OnPropertyChanged();
         }
     }
@@ -73,21 +81,18 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     public string ToggleSendingStateButton
     {
         get => _toggleSendingStateButton;
-        set
-        {
-            if (value == _toggleSendingStateButton) return;
-            _toggleSendingStateButton = value;
-            OnPropertyChanged();
-        }
+        set => SetField(ref _toggleSendingStateButton, value);
     }
 
     private void Initialize()
     {
-        _deviceService.ActionStateChangedEvent += DeviceService_SendingMessagesStateChangedEvent;
-        _deviceService.ConnectionStateChangedEvent += DeviceService_ConnectionStateChangedEvent;
+        _deviceService.DeviceActionStateChangedEvent += OnSendingMessagesStateChangedEvent;
+        _deviceService.DeviceConnectionStateChangedEvent += OnConnectionStateChangedEvent;
+        _deviceService.DeviceServiceErrorEvent += OnDeviceServiceErrorEvent;
 
         _deviceService.ConnectDeviceAsync().ConfigureAwait(false);
     }
+
 
     private void ButtonToggleSendingState_OnClick(object sender, RoutedEventArgs e)
     {
@@ -97,19 +102,26 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         {
             while (IsAllowedToSend)
             {
-                await _deviceService.SendMessageAsync(data: new { message = "hej" });
+                await _deviceService.SendMessageAsync(new { running = _isAllowedToSend });
             }
         }).ConfigureAwait(false);
     }
 
-    private void DeviceService_ConnectionStateChangedEvent(object sender,
+    private void OnConnectionStateChangedEvent(object? sender,
         ConnectionStateArgs e)
     {
         IsConnected = e.IsConnected;
         ConnectionStateMessage = e.Message;
     }
 
-    private void DeviceService_SendingMessagesStateChangedEvent(object sender,
+    private void OnDeviceServiceErrorEvent(object? sender, string e)
+    {
+        ErrorMessage = e;
+
+        ErrorOccurred = true;
+    }
+
+    private void OnSendingMessagesStateChangedEvent(object? sender,
         SendingMessagesArgs e)
     {
         IsAllowedToSend = e.IsAllowedToSend;
@@ -118,7 +130,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         {
             ToggleSendingStateButton = IsAllowedToSend ? "Stop" : "Start";
 
-            var sb = (BeginStoryboard) TryFindResource("SbRotate");
+            var sb = (BeginStoryboard)TryFindResource("SbRotate");
             if (IsAllowedToSend)
             {
                 sb.Storyboard.Begin();
@@ -130,27 +142,12 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         });
     }
 
-
-    private void MainWindow_Closed(object? sender, System.EventArgs e)
+    private void MainWindow_Closed(object? sender, EventArgs e)
     {
-        _deviceService.ActionStateChangedEvent -= DeviceService_SendingMessagesStateChangedEvent;
-        _deviceService.ConnectionStateChangedEvent -= DeviceService_ConnectionStateChangedEvent;
+        _deviceService.DeviceActionStateChangedEvent -= OnSendingMessagesStateChangedEvent;
+        _deviceService.DeviceConnectionStateChangedEvent -= OnConnectionStateChangedEvent;
+        _deviceService.DeviceServiceErrorEvent -= OnDeviceServiceErrorEvent;
 
         Closed -= MainWindow_Closed;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    private bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-        field = value;
-        OnPropertyChanged(propertyName);
-        return true;
     }
 }

@@ -1,89 +1,60 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using AdministrationApp.Helpers;
 using AdministrationApp.MVVM.Models;
-using Core.Services;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
 
 public class KitchenViewModel : ViewModelBase
 {
-    private readonly IDeviceManager _deviceManager;
+    private readonly DeviceListViewModel _deviceListViewModel;
+    private readonly EditDeviceViewModel _editDeviceViewModel;
+    private ViewModelBase _currentViewModel = null!;
 
-    private ObservableCollection<DeviceItem> _device;
-
-    public KitchenViewModel(IDeviceManager deviceManager)
+    public KitchenViewModel(DeviceListViewModel? deviceListViewModel, EditDeviceViewModel? editDeviceViewModel)
     {
-        _deviceManager = deviceManager;
-        _device = new ObservableCollection<DeviceItem>();
+        _deviceListViewModel = deviceListViewModel ?? throw new ArgumentNullException(nameof(deviceListViewModel));
+        _editDeviceViewModel = editDeviceViewModel ?? throw new ArgumentNullException(nameof(editDeviceViewModel));
 
-        ToggleDeviceActionStateCommand = new RelayCommand<DeviceItem>(ToggleDevice);
+
+        deviceListViewModel.CurrentRoom = Room.Kitchen;
+        _editDeviceViewModel.GoBackRequested += _editDeviceViewModel_GoBackRequested;
+        _deviceListViewModel.EditDeviceRequested += _deviceListViewModel_EditDeviceRequested;
+
+
+        CurrentViewModel = deviceListViewModel;
     }
 
-
-    public RelayCommand<DeviceItem> ToggleDeviceActionStateCommand { get; set; }
-
-    public ObservableCollection<DeviceItem> Devices
+    private void _editDeviceViewModel_GoBackRequested()
     {
-        get => _device;
-        set => SetProperty(ref _device, value);
+        SetCurrentViewModel(_deviceListViewModel);
+    }
+
+    private void _deviceListViewModel_EditDeviceRequested(DeviceItem? device)
+    {
+        if (device is null)
+            return;
+
+        _editDeviceViewModel.Device = device;
+        SetCurrentViewModel(_editDeviceViewModel);
     }
 
     public override async Task LoadAsync()
     {
-        var timer = new PeriodicTimer(TimeSpan.FromSeconds(20));
+        await CurrentViewModel.LoadAsync();
+    }
 
-        do
-        {
-            await foreach (var device in _deviceManager.GetDevicesAsync())
-            {
-                var tempDevice = Devices.FirstOrDefault(x => x.DeviceId == device.DeviceId);
-                if (tempDevice is null)
-                {
-                    Devices.Add(new DeviceItem
-                    {
-                        DeviceId = device.DeviceId,
-                        DeviceName = device.DeviceName,
-                        DeviceType = device.DeviceType,
-                        ActionState = device.DeviceActionState,
-                        IconActiveState = device.IconActiveState,
-                        IconInActiveState = device.IconInActiveState,
-                        TextActiveState = device.TextActiveState,
-                        TextInActiveState = device.TextInActiveState
-                    });
-                }
-                else
-                {
-                    tempDevice.DeviceId = device.DeviceId;
-                    tempDevice.DeviceName = device.DeviceName;
-                    tempDevice.DeviceType = device.DeviceType;
-                    tempDevice.ActionState = device.DeviceActionState;
-                    tempDevice.IconActiveState = device.IconActiveState;
-                    tempDevice.IconInActiveState = device.IconInActiveState;
-                    tempDevice.TextActiveState = device.TextActiveState;
-                    tempDevice.TextInActiveState = device.TextInActiveState;
-                }
-            }
-
-            await Task.Delay(1000);
-        } while (await timer.WaitForNextTickAsync());
+    private async void SetCurrentViewModel(ViewModelBase viewModel)
+    {
+        CurrentViewModel = viewModel;
+        await CurrentViewModel.LoadAsync();
     }
 
 
-    //private async void ToggleActionStateEventHandler(object? sender, ToggleActionStateArgs e)
-    //{
-    //    var stateProp = e.State ? "true" : "false";
-
-    //    var toggleActionState = new CloudToDeviceMethod("ChangeActionState");
-    //    toggleActionState.SetPayloadJson(stateProp);
-    //    //await _serviceManager.InvokeDeviceMethodAsync(e.DeviceId, toggleActionState);
-    //}
-
-
-    private void ToggleDevice(DeviceItem? device)
+    public ViewModelBase CurrentViewModel
     {
-        //throw new NotImplementedException();
+        get => _currentViewModel;
+        set => SetProperty(ref _currentViewModel, value);
     }
 }

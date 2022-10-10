@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using AdministrationApp.Helpers.AutoMapper;
 using AdministrationApp.MVVM.ViewModels;
 using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,12 +27,15 @@ public partial class App
         services.AddTransient<MainWindow>();
 
         // Services
+        services.AddAutoMapper(typeof(MapperProfile));
         services.AddScoped<IDeviceManager, DeviceManager>();
 
         // ViewModels
         services.AddTransient<MainViewModel>();
         services.AddTransient<KitchenViewModel>();
-
+        services.AddTransient<BedroomViewModel>();
+        services.AddTransient<DeviceListViewModel>();
+        services.AddTransient<EditDeviceViewModel>();
 
 
         return services.BuildServiceProvider();
