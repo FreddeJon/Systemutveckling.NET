@@ -3,7 +3,7 @@
     <Style x:Key="TilePanel" TargetType="Border">
         <Setter Property="Background" Value="#3f3f40" />
         <Setter Property="CornerRadius" Value="10" />
-        <Setter Property="Margin" Value="25"/>
+        <Setter Property="Margin" Value="25" />
         <Setter Property="Padding" Value="20" />
         <Setter Property="Width" Value="200" />
         <Setter Property="MinHeight" Value="200" />
@@ -50,7 +50,7 @@
 
 
     <Style x:Key="TilePanelToggleButton" TargetType="ToggleButton">
-        <Setter Property="IsChecked" Value="{Binding ElementName=TilePanel, Path=IsChecked}"></Setter>
+        <Setter Property="IsChecked" Value="{Binding ElementName=TilePanel, Path=IsChecked}" />
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect ShadowDepth="1" BlurRadius="3" Opacity="0.5" />
@@ -133,7 +133,7 @@
 
 
     <Style x:Key="TilePanelDeviceName" TargetType="TextBlock">
-        <Setter Property="Text" Value="{Binding ElementName=TilePanel, Path=DeviceName}"></Setter>
+        <Setter Property="Text" Value="{Binding ElementName=TilePanel, Path=DeviceName}" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -141,7 +141,7 @@
 
     </Style>
     <Style x:Key="TilePanelDeviceType" TargetType="TextBlock">
-        <Setter Property="Text" Value="{Binding ElementName=TilePanel, Path=DeviceType}"></Setter>
+        <Setter Property="Text" Value="{Binding ElementName=TilePanel, Path=DeviceType}" />
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="Margin" Value="0 1 0 0" />

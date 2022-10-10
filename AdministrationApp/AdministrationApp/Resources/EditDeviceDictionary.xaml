@@ -6,7 +6,7 @@
         <Setter Property="Foreground" Value="#ffffff" />
     </Style>
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="ToolTipService.ShowOnDisabled" Value="true"/>
+        <Setter Property="ToolTipService.ShowOnDisabled" Value="true" />
     </Style>
     <Style x:Key="EditDeviceInput" TargetType="TextBox">
         <Setter Property="Margin" Value="4 2" />
@@ -23,13 +23,14 @@
         <Setter Property="Width" Value="60" />
         <Setter Property="Height" Value="30" />
         <Setter Property="FontFamily" Value="{StaticResource Fontawesome-Solid}" />
-        <Setter Property="Content" Value="&#xf1f8;"></Setter>
+        <Setter Property="Content" Value="&#xf1f8;" />
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="6">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                            CornerRadius="6">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
@@ -58,11 +59,12 @@
         <Setter Property="Content" Value="Save" />
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="ToolTip" Value="Device needs to be connected"></Setter>
+        <Setter Property="ToolTip" Value="Device needs to be connected" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" CornerRadius="6">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                            CornerRadius="6">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
