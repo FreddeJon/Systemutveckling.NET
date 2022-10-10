@@ -1,20 +1,21 @@
 ﻿// ReSharper disable ClassNeverInstantiated.Global
+
 namespace AdministrationApp.MVVM.Models;
 
 public class DeviceItem : ObservableObject
 {
+    private bool _actionState;
+    private bool _connectionState;
     private string _deviceId = "";
     private string _deviceName = "";
     private string _deviceType = "Unknown";
-    private bool _actionState;
     private string _iconActiveState = "";
     private string _iconInActiveState = "";
-    private string _textActiveState = "";
-    private string _textInActiveState = "";
     private int _interval;
     private string _location = "Unkown";
     private string _owner = "Unkown";
-    private string _connectionState = "Disconnected";
+    private string _textActiveState = "";
+    private string _textInActiveState = "";
 
     public string DeviceId
     {
@@ -34,10 +35,14 @@ public class DeviceItem : ObservableObject
         set => SetProperty(ref _deviceType, value);
     }
 
-    public string ConnectionState
+    public bool ConnectionState
     {
         get => _connectionState;
-        set => SetProperty(ref _connectionState, value);
+        set
+        {
+            if (Equals(_connectionState, value)) return;
+            SetProperty(ref _connectionState, value);
+        }
     }
 
     public bool ActionState

@@ -1,4 +1,6 @@
-﻿namespace Core.Models;
+﻿// ReSharper disable PropertyCanBeMadeInitOnly.Global
+
+namespace Core.Models;
 
 public class DeviceModel
 {
@@ -12,7 +14,7 @@ public class DeviceModel
     public string IconInActiveState { get; set; } = "";
     public string TextActiveState { get; set; } = "";
     public string TextInActiveState { get; set; } = "";
-    public string? ConnectionState { get; set; }
+    public bool ConnectionState { get; set; }
     public DateTime? LastActivityTime { get; set; }
     public string Location { get; set; } = "Unknown";
     public string Owner { get; set; } = "Unkown";

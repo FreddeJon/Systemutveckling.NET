@@ -58,7 +58,7 @@ public class DeviceManager : IDeviceManager
                 var device = new DeviceModel
                 {
                     LastActivityTime = twin.LastActivityTime,
-                    ConnectionState = twin.ConnectionState.ToString(),
+                    ConnectionState = twin.ConnectionState == DeviceConnectionState.Connected,
                     DeviceId = twin.DeviceId
                 };
 
@@ -98,10 +98,23 @@ public class DeviceManager : IDeviceManager
                         device.TextInActiveState = "DISABLE";
                         break;
                 }
+
                 devices.Add(device);
             }
 
         return devices;
+    }
+
+    public async Task DeleteDeviceAsync(DeviceModel device)
+    {
+        try
+        {
+            await _registryManager.RemoveDeviceAsync(device.DeviceId);
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     public async Task<bool> UpdateDeviceAsync(DeviceModel device)
@@ -123,11 +136,7 @@ public class DeviceManager : IDeviceManager
         });
 
 
-        if (CheckIfEqual(device, newDevice))
-        {
-            return false;
-        }
-
+        if (CheckIfEqual(device, newDevice)) return false;
 
 
         var updateDevice = new CloudToDeviceMethod("UpdateDeviceProperties");
@@ -169,7 +178,6 @@ public class DeviceManager : IDeviceManager
         {
             device.DeviceType = twin.Properties.Reported["deviceType"];
             device.DeviceType = char.ToUpper(device.DeviceType[0]) + device.DeviceType[1..];
-
         }
         catch
         {

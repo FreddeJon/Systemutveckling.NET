@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AdministrationApp.MVVM.Models;
+﻿using AdministrationApp.MVVM.Models;
 using Core.Models;
 using Core.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
@@ -18,43 +19,47 @@ public class EditDeviceViewModel : ViewModelBase
     {
         _deviceManager = deviceManager;
         _mapper = mapper;
-        GoBackCommand = new RelayCommand(OnGoBackRequested);
-        EditDeviceCommand = new AsyncRelayCommand<DeviceItem>(EditDeviceRequested);
+        GoBackCommand = new RelayCommand<DeviceItem>(OnGoBackRequested);
+        EditDeviceCommand = new AsyncRelayCommand<DeviceItem>(OnEditDeviceRequested);
+        DeleteDeviceCommand = new AsyncRelayCommand<DeviceItem>(OnDeleteDeviceRequested);
     }
 
-    public bool DeviceIsOnline => Device?.ConnectionState == "Connected";
+
+    public AsyncRelayCommand<DeviceItem> DeleteDeviceCommand { get; }
+
 
     public DeviceItem? Device
     {
         get => _device;
-        set
-        {
-            if (SetProperty(ref _device, value))
-            {
-                OnPropertyChanged(nameof(DeviceIsOnline));
-            }
-        }
+        set => SetProperty(ref _device, value);
     }
 
     public IReadOnlyList<string> Types { get; init; } = new List<string> { "Fan", "Light", "Ac", "Sensor", "Unkown" };
-    public IReadOnlyList<string> Locations { get; init; } = new List<string> { "Kitchen", "Bedroom", "Livingroom", "Unkown" };
-
+    public IReadOnlyList<string> Locations { get; init; } = new List<string> { "Kitchen", "Bedroom" };
 
 
     public AsyncRelayCommand<DeviceItem> EditDeviceCommand { get; }
-    public RelayCommand GoBackCommand { get; }
+    public RelayCommand<DeviceItem> GoBackCommand { get; }
 
 
-    public event Action GoBackRequested = delegate { };
+    public event Action<DeviceItem?> GoBackRequested = delegate { };
 
-    private void OnGoBackRequested()
+    private void OnGoBackRequested(DeviceItem? deviceItem)
     {
-        GoBackRequested();
+        GoBackRequested(null);
     }
-    private async Task EditDeviceRequested(DeviceItem? obj)
+
+    private async Task OnDeleteDeviceRequested(DeviceItem? device)
     {
-        if (obj is null) return;
-        await _deviceManager.UpdateDeviceAsync(_mapper.Map<DeviceModel>(obj));
-        GoBackRequested();
+        if (device is null) return;
+        await _deviceManager.DeleteDeviceAsync(_mapper.Map<DeviceModel>(device));
+        GoBackRequested(device);
+    }
+
+    private async Task OnEditDeviceRequested(DeviceItem? device)
+    {
+        if (device is null) return;
+        await _deviceManager.UpdateDeviceAsync(_mapper.Map<DeviceModel>(device));
+        GoBackRequested(device);
     }
 }

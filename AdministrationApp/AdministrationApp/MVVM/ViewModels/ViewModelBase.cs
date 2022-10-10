@@ -4,6 +4,8 @@ namespace AdministrationApp.MVVM.ViewModels;
 
 public class ViewModelBase : ObservableObject
 {
-    public virtual Task LoadAsync() => Task.CompletedTask;
+    public virtual Task LoadAsync()
+    {
+        return Task.CompletedTask;
+    }
 }
-

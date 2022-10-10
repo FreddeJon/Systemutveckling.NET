@@ -31,7 +31,27 @@
                 <TextBlock Style="{StaticResource TilePanelDeviceName}" />
                 <TextBlock Style="{StaticResource TilePanelDeviceType}" />
             </StackPanel>
-            <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Grid.Row="2" FontFamily="{StaticResource Fontawesome-Regular}" Content="&#xf013;" Command="{Binding EditDeviceCommand, ElementName=TilePanel}" CommandParameter="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#999999" FontSize="20"></Button>
+
+            <DockPanel Grid.Row="2"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Stretch">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Ellipse Grid.Column="0" Style="{StaticResource TilePanelDeviceConnectionState}" />
+
+                    <Button BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                            Grid.Column="1" FontFamily="{StaticResource Fontawesome-Regular}" Content="&#xf013;"
+                            Command="{Binding EditDeviceCommand, ElementName=TilePanel}" CommandParameter="{Binding}"
+                            HorizontalAlignment="Right" Foreground="#999999" FontSize="20" />
+                </Grid>
+
+            </DockPanel>
+
+
         </Grid>
     </Border>
 

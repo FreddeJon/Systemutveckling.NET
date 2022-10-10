@@ -1,7 +1,7 @@
 ﻿namespace AdministrationApp.Components;
 
 /// <summary>
-/// Interaction logic for MainMenuComponent.xaml
+///     Interaction logic for MainMenuComponent.xaml
 /// </summary>
 public partial class MainMenuComponent
 {

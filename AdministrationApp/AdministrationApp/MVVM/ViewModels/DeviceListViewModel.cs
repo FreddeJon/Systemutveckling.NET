@@ -1,12 +1,13 @@
 ﻿using AdministrationApp.Helpers;
 using AdministrationApp.MVVM.Models;
 using Core.Services;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Threading;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
@@ -14,10 +15,11 @@ namespace AdministrationApp.MVVM.ViewModels;
 public sealed class DeviceListViewModel : ViewModelBase
 {
     private readonly IDeviceManager _deviceManager;
+    private readonly IMapper _mapper;
+    private CancellationTokenSource? _cts;
 
     private ObservableCollection<DeviceItem> _devices;
-    private CancellationTokenSource? _cts;
-    private readonly IMapper _mapper;
+
     // ReSharper disable once FieldCanBeMadeReadOnly.Local
     private List<DeviceItem> _tempList = new();
 
@@ -40,8 +42,6 @@ public sealed class DeviceListViewModel : ViewModelBase
 
     public RelayCommand<DeviceItem> ToggleDeviceActionStateCommand { get; }
 
-    public event Action<DeviceItem> EditDeviceRequested = delegate { };
-
 
     public ObservableCollection<DeviceItem> Devices
     {
@@ -49,9 +49,11 @@ public sealed class DeviceListViewModel : ViewModelBase
         set => SetProperty(ref _devices, value);
     }
 
+    public event Action<DeviceItem> EditDeviceRequested = delegate { };
+
     public override async Task LoadAsync()
     {
-        var timer = new PeriodicTimer(TimeSpan.FromSeconds(20));
+        var timer = new PeriodicTimer(TimeSpan.FromSeconds(5));
 
         try
         {
@@ -72,10 +74,7 @@ public sealed class DeviceListViewModel : ViewModelBase
                         _tempList.Add(item);
                 }
 
-                foreach (var item in _tempList)
-                {
-                    _devices.Remove(item);
-                }
+                foreach (var item in _tempList) _devices.Remove(item);
 
 
                 foreach (var device in deviceModels)
@@ -87,11 +86,14 @@ public sealed class DeviceListViewModel : ViewModelBase
                     }
                     else
                     {
-                        var mappedDevice = _mapper.Map<DeviceItem>(device);
-                        // ReSharper disable once RedundantAssignment
-                        tempDevice = mappedDevice;
+                        tempDevice.ActionState = device.ActionState;
+                        tempDevice.ConnectionState = device.ConnectionState;
+                        tempDevice.DeviceName = device.DeviceName;
+                        tempDevice.DeviceType = device.DeviceType;
+                        tempDevice.Owner = device.Owner;
+                        tempDevice.Location = device.Location;
+                        tempDevice.Interval = device.Interval;
                     }
-
                 }
 
                 await Task.Delay(1000);
@@ -115,10 +117,7 @@ public sealed class DeviceListViewModel : ViewModelBase
     {
         if (device is null)
             return;
-        if (_cts is null)
-        {
-            Console.WriteLine();
-        }
+        if (_cts is null) Console.WriteLine();
         _cts?.Cancel();
 
         EditDeviceRequested(device);

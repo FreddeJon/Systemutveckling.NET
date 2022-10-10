@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
@@ -18,8 +19,6 @@ public class MainViewModel : ViewModelBase
 
         SelectViewModelCommand = new RelayCommand<ViewModelBase>(SelectViewModel);
         CloseApplicationCommand = new RelayCommand(CloseApplication);
-
-
     }
 
     public KitchenViewModel KitchenViewModel { get; }

@@ -1,7 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using AdministrationApp.Helpers;
+﻿using AdministrationApp.Helpers;
 using AdministrationApp.MVVM.Models;
+using System;
+using System.Threading.Tasks;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace AdministrationApp.MVVM.ViewModels;
@@ -26,7 +27,14 @@ public class KitchenViewModel : ViewModelBase
         CurrentViewModel = deviceListViewModel;
     }
 
-    private void _editDeviceViewModel_GoBackRequested()
+
+    public ViewModelBase CurrentViewModel
+    {
+        get => _currentViewModel;
+        set => SetProperty(ref _currentViewModel, value);
+    }
+
+    private void _editDeviceViewModel_GoBackRequested(DeviceItem? device)
     {
         SetCurrentViewModel(_deviceListViewModel);
     }
@@ -35,6 +43,7 @@ public class KitchenViewModel : ViewModelBase
     {
         if (device is null)
             return;
+
 
         _editDeviceViewModel.Device = device;
         SetCurrentViewModel(_editDeviceViewModel);
@@ -49,12 +58,5 @@ public class KitchenViewModel : ViewModelBase
     {
         CurrentViewModel = viewModel;
         await CurrentViewModel.LoadAsync();
-    }
-
-
-    public ViewModelBase CurrentViewModel
-    {
-        get => _currentViewModel;
-        set => SetProperty(ref _currentViewModel, value);
     }
 }

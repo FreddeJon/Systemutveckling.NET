@@ -1,11 +1,11 @@
-﻿using System.Windows;
+﻿using AdministrationApp.MVVM.ViewModels;
+using System.Windows;
 using System.Windows.Input;
-using AdministrationApp.MVVM.ViewModels;
 
 namespace AdministrationApp;
 
 /// <summary>
-/// Interaction logic for MainWindow.xaml
+///     Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow
 {
@@ -23,7 +23,7 @@ public partial class MainWindow
 
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
-       await _viewModel.LoadAsync();
+        await _viewModel.LoadAsync();
     }
 
     private void UIElement_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
