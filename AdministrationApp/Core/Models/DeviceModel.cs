@@ -17,6 +17,6 @@ public class DeviceModel
     public bool ConnectionState { get; set; }
     public DateTime? LastActivityTime { get; set; }
     public string Location { get; set; } = "Unknown";
-    public string Owner { get; set; } = "Unkown";
+    public string Owner { get; set; } = "Unknown";
     public int Interval { get; set; } = 10000;
 }
