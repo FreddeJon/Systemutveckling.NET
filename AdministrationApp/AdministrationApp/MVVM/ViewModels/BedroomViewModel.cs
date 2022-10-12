@@ -12,7 +12,7 @@ public class BedroomViewModel : ViewModelBase
     private readonly EditDeviceViewModel _editDeviceViewModel;
     private ViewModelBase _currentViewModel = null!;
 
-    public BedroomViewModel(DeviceListViewModel deviceListViewModel, EditDeviceViewModel editDeviceViewModel)
+    public BedroomViewModel(DeviceListViewModel deviceListViewModel, EditDeviceViewModel editDeviceViewModel, WeatherViewModel weatherViewModel)
     {
         _deviceListViewModel = deviceListViewModel;
         _deviceListViewModel.CurrentRoom = Room.Bedroom;
@@ -24,7 +24,11 @@ public class BedroomViewModel : ViewModelBase
 
 
         CurrentViewModel = deviceListViewModel;
+        WeatherViewModel = weatherViewModel;
+
     }
+
+    public WeatherViewModel WeatherViewModel { get; set; }
 
 
     public ViewModelBase CurrentViewModel

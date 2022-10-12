@@ -31,6 +31,9 @@
             <DataTemplate DataType="{x:Type viewModels:EditDeviceViewModel}">
                 <views:EditDeviceView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:WeatherViewModel}">
+                <views:WeatherView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

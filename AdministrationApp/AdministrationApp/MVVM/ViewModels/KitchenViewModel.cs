@@ -1,7 +1,9 @@
-﻿using AdministrationApp.Helpers;
-using AdministrationApp.MVVM.Models;
-using System;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using AdministrationApp.Helpers;
+using AdministrationApp.MVVM.Models;
+using Core.Services.WeatherService;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -13,7 +15,7 @@ public class KitchenViewModel : ViewModelBase
     private readonly EditDeviceViewModel _editDeviceViewModel;
     private ViewModelBase _currentViewModel = null!;
 
-    public KitchenViewModel(DeviceListViewModel? deviceListViewModel, EditDeviceViewModel? editDeviceViewModel)
+    public KitchenViewModel(DeviceListViewModel? deviceListViewModel, EditDeviceViewModel? editDeviceViewModel, WeatherViewModel weatherViewModel)
     {
         _deviceListViewModel = deviceListViewModel ?? throw new ArgumentNullException(nameof(deviceListViewModel));
         _editDeviceViewModel = editDeviceViewModel ?? throw new ArgumentNullException(nameof(editDeviceViewModel));
@@ -25,7 +27,11 @@ public class KitchenViewModel : ViewModelBase
 
 
         CurrentViewModel = deviceListViewModel;
+        WeatherViewModel = weatherViewModel;
     }
+
+    public WeatherViewModel WeatherViewModel { get; set; }
+
 
 
     public ViewModelBase CurrentViewModel
@@ -33,6 +39,8 @@ public class KitchenViewModel : ViewModelBase
         get => _currentViewModel;
         set => SetProperty(ref _currentViewModel, value);
     }
+
+
 
     private void _editDeviceViewModel_GoBackRequested(DeviceItem? device)
     {

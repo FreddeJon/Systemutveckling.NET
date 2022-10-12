@@ -4,6 +4,7 @@ using Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
+using Core.Services.WeatherService;
 
 namespace AdministrationApp;
 
@@ -29,6 +30,7 @@ public partial class App
         // Services
         services.AddAutoMapper(typeof(MapperProfile));
         services.AddScoped<IDeviceManager, DeviceManager>();
+        services.AddScoped<IWeatherService, WeatherService>();
 
         // ViewModels
         services.AddTransient<MainViewModel>();
@@ -36,6 +38,7 @@ public partial class App
         services.AddTransient<BedroomViewModel>();
         services.AddTransient<DeviceListViewModel>();
         services.AddTransient<EditDeviceViewModel>();
+        services.AddSingleton<WeatherViewModel>();
 
 
         return services.BuildServiceProvider();
