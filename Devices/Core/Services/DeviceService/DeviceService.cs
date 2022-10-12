@@ -95,10 +95,10 @@ public sealed class DeviceService : IDeviceService
                 for (var i = 0; i <= 10; i++)
                 {
                     ConnectionState = i < 5 ? ConnectionState.Connecting : ConnectionState.StillConnecting;
-                    var successfull = await _initializer.GetConnectionStringFromApi(_sqliteService, _deviceSettings,
+                    var successful = await _initializer.GetConnectionStringFromApi(_sqliteService, _deviceSettings,
                         _clientFactory.CreateClient("ConnectDevice"));
 
-                    if (successfull)
+                    if (successful)
                     {
                         break;
                     }
