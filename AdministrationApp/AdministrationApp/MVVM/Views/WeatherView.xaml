@@ -9,6 +9,8 @@
             <TextBlock Text="{Binding WeatherCondition}" FontFamily="{StaticResource Fontawesome-Regular}"
                        FontSize="36" FontWeight="SemiBold"  Margin="0 0 15 0" Foreground="white" />
             <TextBlock Text="{Binding Temperature, StringFormat='\{0}°C'}" FontSize="26" FontWeight="SemiBold" Foreground="White"
+                       HorizontalAlignment="Left" VerticalAlignment="Center" />           
+            <TextBlock Margin="10 0 0 0 " Text="{Binding Humidity, StringFormat='\{0}%'}" FontSize="26" FontWeight="SemiBold" Foreground="White"
                        HorizontalAlignment="Left" VerticalAlignment="Center" />
         </StackPanel>
     </Grid>
