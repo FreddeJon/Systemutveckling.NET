@@ -19,13 +19,11 @@ public class BedroomViewModel : ViewModelBase
 
         _editDeviceViewModel = editDeviceViewModel;
         _editDeviceViewModel.GoBackRequested += _editDeviceViewModel_GoBackRequested;
-
         _deviceListViewModel.EditDeviceRequested += _deviceListViewModel_EditDeviceRequested;
 
 
         CurrentViewModel = deviceListViewModel;
         WeatherViewModel = weatherViewModel;
-
     }
 
     public WeatherViewModel WeatherViewModel { get; set; }
@@ -60,5 +58,13 @@ public class BedroomViewModel : ViewModelBase
     {
         CurrentViewModel = view;
         await CurrentViewModel.LoadAsync();
+    }
+
+
+    public override void Dispose()
+    {
+        _editDeviceViewModel.GoBackRequested -= _editDeviceViewModel_GoBackRequested;
+        _deviceListViewModel.EditDeviceRequested -= _deviceListViewModel_EditDeviceRequested;
+        base.Dispose();
     }
 }

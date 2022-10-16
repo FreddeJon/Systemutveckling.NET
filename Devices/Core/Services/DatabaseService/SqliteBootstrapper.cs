@@ -25,7 +25,7 @@ public static class SqliteBootstrapper
 
             databaseSettings.IsInitialized = true;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             await conn.ExecuteAsync($"DROP TABLE[IF EXISTS] {databaseSettings.DatabaseTable};");
             throw new Exception("could not bootstrap db");

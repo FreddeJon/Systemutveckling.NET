@@ -3,12 +3,10 @@ using Microsoft.Azure.Devices;
 using Microsoft.Azure.Devices.Shared;
 using Newtonsoft.Json;
 
-namespace Core.Services;
+namespace Core.Services.DeviceService;
 
 public class DeviceManager : IDeviceManager
 {
-    private const string CurrentRoom = "kitchen";
-
     private const string ConnectionString =
         "HostName=Systemutveckling-iot.azure-devices.net;SharedAccessKeyName=AdminApp;SharedAccessKey=coXYZ9vRJThoioshKnExrHZ//NJx3bqFar6wQLev31s=";
 

@@ -12,7 +12,7 @@ internal static class Program
     private static bool _isAllowed;
     private static bool _isConnected;
     private static IDeviceService? _deviceService;
-
+    private static readonly Random Rand = new();
     public static async Task Main()
     {
         var services = new ServiceCollection();
@@ -42,7 +42,7 @@ internal static class Program
                 {
                     Console.WriteLine("Sending message");
                     // TODO SEND TEMP
-                    await _deviceService.SendMessageAsync(new { Temperature = "24" });
+                    await _deviceService.SendMessageAsync(new { Temperature = Rand.Next(18,30).ToString() });
                 });
             }
         }

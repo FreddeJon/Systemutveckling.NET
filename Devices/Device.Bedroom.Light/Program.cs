@@ -4,6 +4,7 @@ using Core.Services.DeviceService.Events;
 using Core.Services.DeviceService.Interfaces;
 using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Device.Kitchen.TemperatureSensor;
 
@@ -12,7 +13,6 @@ internal static class Program
     private static bool _isAllowed;
     private static bool _isConnected;
     private static IDeviceService? _deviceService;
-    private static readonly Random Rand = new();
 
     public static async Task Main()
     {
@@ -20,9 +20,9 @@ internal static class Program
 
         services.AddDeviceService(new DeviceSettings
         {
-            DeviceName = "TemperatureSensor",
-            DeviceType = "Sensor",
-            Location = "Kitchen",
+            DeviceName = "Light",
+            DeviceType = "Light",
+            Location = "Bedroom",
             Owner = "Fredrik"
         });
 
@@ -42,7 +42,7 @@ internal static class Program
                 await Task.Run(async () =>
                 {
                     Console.WriteLine("Sending message");
-                    await _deviceService.SendMessageAsync(new { Temperature = Rand.Next(18, 30).ToString() });
+                    await _deviceService.SendMessageAsync(new { LightState = _isAllowed });
                 });
             }
         }

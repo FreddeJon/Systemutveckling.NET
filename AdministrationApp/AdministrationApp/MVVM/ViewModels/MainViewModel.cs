@@ -16,34 +16,36 @@ public class MainViewModel : ViewModelBase
 
         SelectedViewModel = KitchenViewModel;
 
+        SelectViewCommand = new RelayCommand<ViewModelBase>(viewModel => { SelectedViewModel = viewModel; });
 
-        SelectViewModelCommand = new RelayCommand<ViewModelBase>(SelectViewModel);
         CloseApplicationCommand = new RelayCommand(CloseApplication);
     }
 
-    public KitchenViewModel KitchenViewModel { get; }
+    public RelayCommand<ViewModelBase> SelectViewCommand { get; set; }
+
+
+    public KitchenViewModel KitchenViewModel { get; set; }
     public BedroomViewModel BedroomViewModel { get; }
 
     public RelayCommand CloseApplicationCommand { get; }
 
-    public RelayCommand<ViewModelBase> SelectViewModelCommand { get; }
 
     public ViewModelBase? SelectedViewModel
     {
         get => _selectedViewModel;
-        set => SetProperty(ref _selectedViewModel, value);
+        private set
+        {
+            if (SetProperty(ref _selectedViewModel, value))
+                SelectedViewModel?.LoadAsync();
+        }
     }
 
     public override async Task LoadAsync()
     {
-        if (SelectedViewModel is not null) await SelectedViewModel.LoadAsync();
+        if (SelectedViewModel is not null)
+            await SelectedViewModel.LoadAsync();
     }
 
-    private async void SelectViewModel(ViewModelBase? viewModel)
-    {
-        SelectedViewModel = viewModel;
-        await LoadAsync();
-    }
 
     private static void CloseApplication()
     {

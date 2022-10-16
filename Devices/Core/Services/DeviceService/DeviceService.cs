@@ -232,7 +232,7 @@ public sealed class DeviceService : IDeviceService
         {
             ["deviceName"] = _deviceSettings!.DeviceName,
             ["deviceType"] = _deviceSettings.DeviceType,
-            ["location"] = _deviceSettings.Location.ToLower(),
+            ["location"] = _deviceSettings.Location?.ToLower(),
             ["owner"] = _deviceSettings.Owner,
             ["interval"] = _deviceSettings.Interval
         };

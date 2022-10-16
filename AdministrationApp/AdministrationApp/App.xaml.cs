@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using Core.Services.WeatherService;
+using Core.Services.DeviceService;
 
 namespace AdministrationApp;
 

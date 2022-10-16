@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace AdministrationApp.MVVM.ViewModels;
 
-public class ViewModelBase : ObservableObject, IDisposable
+public abstract class ViewModelBase : ObservableObject, IDisposable
 {
     public virtual Task LoadAsync()
     {

@@ -32,15 +32,18 @@ public class KitchenViewModel : ViewModelBase
 
     public WeatherViewModel WeatherViewModel { get; set; }
 
-
-
     public ViewModelBase CurrentViewModel
     {
         get => _currentViewModel;
         set => SetProperty(ref _currentViewModel, value);
     }
 
-
+    public override void Dispose()
+    {
+        _editDeviceViewModel.GoBackRequested -= _editDeviceViewModel_GoBackRequested;
+        _deviceListViewModel.EditDeviceRequested -= _deviceListViewModel_EditDeviceRequested;
+        base.Dispose();
+    }
 
     private void _editDeviceViewModel_GoBackRequested(DeviceItem? device)
     {

@@ -8,12 +8,12 @@
     <Border Style="{StaticResource MainMenuBar}">
         <StackPanel Orientation="Horizontal">
             <RadioButton
-                Command="{Binding SelectViewModelCommand}" CommandParameter="{Binding KitchenViewModel}"
+                Command="{Binding SelectViewCommand}" CommandParameter="{Binding KitchenViewModel}"
                 IsChecked="True"
                 Style="{StaticResource MainMenuButton}" Content="&#xe01d;" />
 
             <RadioButton
-                Command="{Binding SelectViewModelCommand}" CommandParameter="{Binding BedroomViewModel}"
+                Command="{Binding SelectViewCommand}" CommandParameter="{Binding BedroomViewModel}"
                 Style="{StaticResource MainMenuButton}" Content="&#xf8f7;" />
 
             <RadioButton Command="{Binding CloseApplicationCommand}" Style="{StaticResource MainMenuButton}"

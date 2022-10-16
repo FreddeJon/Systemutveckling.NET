@@ -1,10 +1,11 @@
-﻿using Core.Services.DeviceService.Events;
-using Core.Services.DeviceService.Interfaces;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
+using Core.Services.DeviceService.Events;
+using Core.Services.DeviceService.Interfaces;
+
 // ReSharper disable UnusedMember.Global
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -15,11 +16,11 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 {
     private readonly IDeviceService _deviceService;
     private string _connectionStateMessage = "Connecting";
+    private string? _errorMessage;
+    private bool _errorOccurred;
     private bool _isAllowedToSend;
     private bool _isConnected;
     private string _toggleSendingStateButton = "Start";
-    private string? _errorMessage;
-    private bool _errorOccurred;
 
     public MainWindow(IDeviceService deviceService)
     {
@@ -50,10 +51,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     public bool IsAllowedToSend
     {
         get => _isAllowedToSend;
-        set
-        {
-            SetField(ref _isAllowedToSend, value);
-        }
+        set => SetField(ref _isAllowedToSend, value);
     }
 
     public string ConnectionStateMessage
@@ -73,7 +71,6 @@ public sealed partial class MainWindow : INotifyPropertyChanged
             }
 
             SetField(ref _isConnected, value);
-            OnPropertyChanged();
         }
     }
 
@@ -99,9 +96,16 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
         Task.Run(async () =>
         {
-            while (IsAllowedToSend)
+            while (true)
             {
-                await _deviceService.SendMessageAsync(new { running = _isAllowedToSend });
+                if (IsAllowedToSend)
+                {
+                    await _deviceService.SendMessageAsync(new { running = _isAllowedToSend });
+                }
+                else
+                {
+                    await Task.Delay(1000);
+                }
             }
         }).ConfigureAwait(false);
     }

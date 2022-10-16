@@ -1,12 +1,12 @@
-﻿using AdministrationApp.Helpers;
-using AdministrationApp.MVVM.Models;
-using Core.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AdministrationApp.Helpers;
+using AdministrationApp.MVVM.Models;
+using Core.Services;
 
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -58,7 +58,6 @@ public sealed class DeviceListViewModel : ViewModelBase
         try
         {
             _cts = new CancellationTokenSource();
-
             do
             {
                 var devices = await _deviceManager.GetDevicesAsync(CurrentRoom.GetRoom());
