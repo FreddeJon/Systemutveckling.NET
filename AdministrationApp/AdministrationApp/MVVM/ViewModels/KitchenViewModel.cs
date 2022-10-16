@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using AdministrationApp.Helpers;
 using AdministrationApp.MVVM.Models;
-using Core.Services.WeatherService;
 
 // ReSharper disable MemberCanBePrivate.Global
 

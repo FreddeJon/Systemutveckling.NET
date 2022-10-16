@@ -6,7 +6,7 @@ public class WeatherResponse
     public int Temperature
     {
         get => _temperature;
-        init => _temperature = (int)value;
+        init => _temperature = value;
     }
     public int Humidity { get; init; }
 

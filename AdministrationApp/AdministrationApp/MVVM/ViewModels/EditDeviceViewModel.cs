@@ -1,9 +1,9 @@
 ﻿using AdministrationApp.MVVM.Models;
 using Core.Models;
-using Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Services.DeviceService;
 
 // ReSharper disable MemberCanBePrivate.Global
 

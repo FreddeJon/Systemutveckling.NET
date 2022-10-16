@@ -4,9 +4,8 @@ using Core.Services.DeviceService.Events;
 using Core.Services.DeviceService.Interfaces;
 using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
-namespace Device.Kitchen.TemperatureSensor;
+namespace Device.Bedroom.Light;
 
 internal static class Program
 {

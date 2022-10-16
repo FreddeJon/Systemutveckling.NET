@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AdministrationApp.Helpers;
 using AdministrationApp.MVVM.Models;
-using Core.Services;
+using Core.Services.DeviceService;
 
 // ReSharper disable MemberCanBePrivate.Global
 

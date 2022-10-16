@@ -19,6 +19,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
     private string? _errorMessage;
     private bool _errorOccurred;
     private bool _isAllowedToSend;
+    private bool _isClosing;
     private bool _isConnected;
     private string _toggleSendingStateButton = "Start";
 
@@ -96,11 +97,11 @@ public sealed partial class MainWindow : INotifyPropertyChanged
 
         Task.Run(async () =>
         {
-            while (true)
+            while (!_isClosing)
             {
                 if (IsAllowedToSend)
                 {
-                    await _deviceService.SendMessageAsync(new { running = _isAllowedToSend });
+                    await _deviceService.SendMessageAsync(new {running = _isAllowedToSend});
                 }
                 else
                 {
@@ -109,6 +110,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
             }
         }).ConfigureAwait(false);
     }
+
 
     private void OnConnectionStateChangedEvent(object? sender,
         ConnectionStateArgs e)
@@ -133,7 +135,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         {
             ToggleSendingStateButton = IsAllowedToSend ? "Stop" : "Start";
 
-            var sb = (BeginStoryboard)TryFindResource("SbRotate");
+            var sb = (BeginStoryboard) TryFindResource("SbRotate");
             if (IsAllowedToSend)
             {
                 sb.Storyboard.Begin();
@@ -150,7 +152,7 @@ public sealed partial class MainWindow : INotifyPropertyChanged
         _deviceService.DeviceActionStateChangedEvent -= OnActionStateChangedEvent;
         _deviceService.DeviceConnectionStateChangedEvent -= OnConnectionStateChangedEvent;
         _deviceService.DeviceServiceErrorEvent -= OnDeviceServiceErrorEvent;
-
+        _isClosing = false;
         Closed -= MainWindow_Closed;
     }
 }
