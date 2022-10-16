@@ -41,7 +41,6 @@ internal static class Program
                 await Task.Run(async () =>
                 {
                     Console.WriteLine("Sending message");
-                    // TODO SEND TEMP
                     await _deviceService.SendMessageAsync(new { Temperature = Rand.Next(18,30).ToString() });
                 });
             }
